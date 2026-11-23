@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>On the Move: The Migration Anthem — Form 2 Geography</title>
+  <!-- Tailwind CSS for responsive utility styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font: Inter (falls back gracefully to system sans-serif offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       BASE & OFFLINE-RESILIENT STYLES
+       Ensures smooth animations, typography, and offline usability
+       ========================================================================== */
+    :root {
+      --primary-blue: #2563eb;
+      --primary-purple: #7c3aed;
+      --primary-teal: #0d9488;
+      --bg-gradient: linear-gradient(135deg, #eff6ff 0%, #f3e8ff 50%, #ccfbf1 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg-gradient);
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated Musical Equalizer Bars in Header */
+    @keyframes eqBounce {
+      0%, 100% { transform: scaleY(0.35); }
+      50% { transform: scaleY(1); }
+    }
+    .eq-bar {
+      transform-origin: bottom;
+      animation: eqBounce 1.1s ease-in-out infinite;
+    }
+    .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+    .eq-bar:nth-child(4) { animation-delay: 0.15s; }
+    .eq-bar:nth-child(5) { animation-delay: 0.35s; }
+
+    /* Floating musical notes */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(6deg); }
+    }
+    .float-note {
+      animation: floatSlow 3.5s ease-in-out infinite;
+    }
+
+    /* Blank Input States */
+    .blank-input {
+      min-width: 175px;
+      height: 36px;
+      padding: 4px 28px 4px 10px;
+      border-radius: 10px;
+      border: 2px solid #cbd5e1;
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    @media (max-width: 640px) {
+      .blank-input {
+        min-width: 155px;
+        font-size: 0.9rem;
+      }
+    }
+
+    .blank-input:focus,
+    .blank-input.is-active {
+      border-color: #6366f1;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+    }
+
+    /* Checked States: Green (Correct), Red (Wrong), Amber/Yellow (Unanswered) */
+    .blank-input.state-correct {
+      border-color: #16a34a !important;
+      background-color: #dcfce7 !important;
+      color: #14532d !important;
+    }
+
+    .blank-input.state-wrong {
+      border-color: #dc2626 !important;
+      background-color: #fee2e2 !important;
+      color: #7f1d1d !important;
+    }
+
+    .blank-input.state-unanswered {
+      border-color: #f59e0b !important;
+      background-color: #fef3c7 !important;
+      color: #78350f !important;
+    }
+
+    /* Pulse highlight when jumping to an already-used blank */
+    @keyframes highlightPulse {
+      0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.65); }
+      70% { box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+    }
+    .pulse-target {
+      animation: highlightPulse 1s ease-out 2;
+    }
+
+    /* Word Bank Chips */
+    .word-chip {
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+    .word-chip:hover:not(.is-used) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px -3px rgba(79, 70, 229, 0.22);
+    }
+    .word-chip:active:not(.is-used) {
+      transform: translateY(0px);
+    }
+    .word-chip.is-used {
+      background-color: #e2e8f0 !important;
+      border-color: #cbd5e1 !important;
+      color: #64748b !important;
+      text-decoration: line-through;
+      opacity: 0.72;
+    }
+
+    /* Circular Progress Ring Animation */
+    .score-ring-circle {
+      transition: stroke-dashoffset 1s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.4s ease;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    /* Sticky Music Player & Word Bank Dock */
+    .sticky-dock {
+      position: sticky;
+      top: 54px;
+      z-index: 30;
+      transition: box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+
+    /* Floating +XP Gamification Popup */
+    @keyframes floatUpXp {
+      0% { opacity: 1; transform: translateY(0) scale(0.95); }
+      70% { opacity: 1; transform: translateY(-28px) scale(1.08); }
+      100% { opacity: 0; transform: translateY(-42px) scale(1); }
+    }
+    .xp-floater {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      animation: floatUpXp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Achievement Badge Unlock Pop */
+    @keyframes badgePop {
+      0% { transform: scale(0.85); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .badge-unlocked {
+      animation: badgePop 0.4s ease-out;
+    }
+
+    /* Custom Range Slider for Music Player */
+    input[type="range"].anthem-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: #cbd5e1;
+      outline: none;
+    }
+    input[type="range"].anthem-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #4f46e5;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-indigo-200 selection:text-indigo-900">
+
+  <!-- Confetti Canvas for 24/24 Mastery Celebration -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Toast / Non-Intrusive Notification Banner -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-[calc(100%-2.5rem)] pointer-events-none"></div>
+
+  <!-- ==========================================================================
+       AUDIO ELEMENT (AUTO-FALLBACK PATHS)
+       ========================================================================== -->
+  <audio id="anthem-audio" preload="metadata">
+    <source src="Media/Migration%20on%20the%20Move.mp3" type="audio/mpeg" />
+    <source src="../Media/Migration%20on%20the%20Move.mp3" type="audio/mpeg" />
+    <source src="file:///C:/Users/ACER/Desktop/GEO-HUB/Media/Migration%20on%20the%20Move.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Sticky Top Progress & Gamification HUD Bar -->
+  <div class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-indigo-100 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-teal-500 text-white shadow-sm shrink-0">
+          <!-- Music Note Icon -->
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+          </svg>
+        </span>
+        <div>
+          <p class="text-[11px] font-black uppercase tracking-wider text-indigo-700">CODE ZERO LAB • Form 2 Geography</p>
+          <p id="active-blank-indicator" class="text-xs text-slate-600 font-medium">
+            Active Blank: <span class="font-bold text-purple-700">#1</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Gamification XP, Streak, Progress Bar & Sound Toggle -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-1 sm:flex-initial justify-end">
+        <!-- XP & Level Pill -->
+        <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200">
+          <span id="xp-badge" class="text-xs font-extrabold text-indigo-700">⚡ 0 XP</span>
+          <span class="text-slate-300">|</span>
+          <span id="rank-badge" class="text-xs font-bold text-purple-700">Lvl 1 • Explorer</span>
+        </div>
+
+        <!-- Combo Streak Pill -->
+        <div id="streak-pill" class="px-2.5 py-1 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-extrabold whitespace-nowrap" title="Fill consecutive blanks to build your streak!">
+          🔥 <span id="streak-count">0</span>
+        </div>
+
+        <div class="w-28 sm:w-40">
+          <div class="flex justify-between text-[11px] font-bold mb-0.5">
+            <span class="text-slate-600">Progress</span>
+            <span id="progress-label" class="text-indigo-700">0 / 24</span>
+          </div>
+          <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+            <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500 rounded-full transition-all duration-300" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          id="sound-toggle-btn"
+          onclick="toggleSound()"
+          class="p-1.5 rounded-lg bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 transition cursor-pointer"
+          title="Toggle Musical Sound Effects"
+          aria-label="Toggle Sound Effects"
+        >
+          <svg id="sound-on-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/>
+          </svg>
+          <svg id="sound-off-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6">
+
+    <!-- ========================================================================
+         1. HERO HEADER & STUDENT INFORMATION CARD
+         ======================================================================== -->
+    <header class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-purple-600 to-teal-500 text-white shadow-xl p-6 sm:p-8">
+      <!-- Decorative Background Musical Notes -->
+      <div class="absolute top-3 right-6 opacity-20 pointer-events-none float-note">
+        <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+      </div>
+      <div class="absolute bottom-2 right-28 opacity-15 pointer-events-none">
+        <svg class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/>
+        </svg>
+      </div>
+
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-2.5">
+          <!-- Prominent CODE ZERO LAB Brand Banner -->
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-2xl bg-slate-950/35 backdrop-blur-md border border-white/25 shadow-md">
+            <span class="w-2.5 h-2.5 rounded-full bg-teal-300 animate-ping"></span>
+            <span class="text-2xl sm:text-4xl font-black tracking-[0.14em] uppercase bg-gradient-to-r from-white via-teal-100 to-sky-200 bg-clip-text text-transparent drop-shadow-sm">
+              CODE ZERO LAB
+            </span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 pt-0.5">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold tracking-wide uppercase">
+              <!-- Animated Mini Equalizer -->
+              <span class="inline-flex items-end gap-0.5 h-3.5" aria-hidden="true">
+                <span class="eq-bar w-1 h-3 bg-teal-200 rounded-full"></span>
+                <span class="eq-bar w-1 h-3.5 bg-white rounded-full"></span>
+                <span class="eq-bar w-1 h-2.5 bg-purple-200 rounded-full"></span>
+                <span class="eq-bar w-1 h-3.5 bg-sky-200 rounded-full"></span>
+                <span class="eq-bar w-1 h-2 bg-white rounded-full"></span>
+              </span>
+              <span>Interactive Geography Quest • 24 Keywords</span>
+            </div>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            ON THE MOVE: THE MIGRATION ANTHEM
+          </h1>
+          <p class="text-blue-50 text-sm sm:text-base font-medium max-w-2xl">
+            "Complete the missing keywords and test your understanding of population migration!"
+          </p>
+        </div>
+
+        <!-- Microphone & Music Badge -->
+        <div class="hidden sm:flex items-center gap-3 bg-white/15 backdrop-blur-md border border-white/25 rounded-2xl px-4 py-3 shrink-0">
+          <div class="w-11 h-11 rounded-xl bg-white text-indigo-600 flex items-center justify-center shadow">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+            </svg>
+          </div>
+          <div class="text-xs leading-snug">
+            <div class="font-bold text-white">Anthem Challenge</div>
+            <div class="text-teal-100">24 Keywords • 1 Use Each</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Information Section -->
+      <div class="relative z-10 mt-6 pt-5 border-t border-white/20 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="student-name" class="block text-xs font-bold uppercase tracking-wider text-blue-100 mb-1.5">
+            Student Name
+          </label>
+          <input
+            type="text"
+            id="student-name"
+            placeholder="Enter your full name..."
+            class="w-full px-4 py-2.5 rounded-xl bg-white/95 text-slate-800 placeholder-slate-400 font-medium text-sm border-2 border-transparent focus:border-teal-300 focus:bg-white outline-none shadow-sm transition"
+          />
+        </div>
+        <div>
+          <label for="student-class" class="block text-xs font-bold uppercase tracking-wider text-blue-100 mb-1.5">
+            Class
+          </label>
+          <input
+            type="text"
+            id="student-class"
+            placeholder="e.g., 2 Arif / 2 Bestari"
+            class="w-full px-4 py-2.5 rounded-xl bg-white/95 text-slate-800 placeholder-slate-400 font-medium text-sm border-2 border-transparent focus:border-teal-300 focus:bg-white outline-none shadow-sm transition"
+          />
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================================
+         1B. GAMIFICATION ACHIEVEMENTS & QUEST STATUS BAR
+         ======================================================================== -->
+    <section aria-label="Gamification Quest Bar" class="bg-white/90 backdrop-blur rounded-2xl shadow-sm border border-indigo-100 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center font-black text-base shadow-sm shrink-0">
+          🏆
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="hud-rank-title" class="text-sm font-extrabold text-slate-800">Rank: Level 1 — Rookie Explorer</span>
+            <span id="hud-xp-total" class="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 text-xs font-extrabold">0 XP</span>
+          </div>
+          <p class="text-xs text-slate-500">Earn XP for every keyword placed, streak combos, and high accuracy!</p>
+        </div>
+      </div>
+
+      <!-- 5 Unlockable Achievement Badges -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2" id="achievements-strip">
+        <span id="badge-first" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-400 border border-slate-200 text-[11px] font-bold transition" title="Fill your first keyword">
+          🎵 First Beat
+        </span>
+        <span id="badge-halfway" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-400 border border-slate-200 text-[11px] font-bold transition" title="Complete 12 out of 24 keywords">
+          🚀 Halfway Hero
+        </span>
+        <span id="badge-streak" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-400 border border-slate-200 text-[11px] font-bold transition" title="Reach a 5x answer streak">
+          🔥 5x Combo
+        </span>
+        <span id="badge-nohint" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-400 border border-slate-200 text-[11px] font-bold transition" title="Check answers with 18+ correct without using hints">
+          🧠 Pure Genius
+        </span>
+        <span id="badge-master" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-400 border border-slate-200 text-[11px] font-bold transition" title="Score 24 / 24 on the Migration Anthem">
+          👑 Anthem Master
+        </span>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         2. STICKY MUSIC PLAYER & WORD BANK DOCK
+         ======================================================================== -->
+    <section id="word-bank-section" class="sticky-dock bg-white/95 backdrop-blur-md rounded-3xl shadow-lg border-2 border-indigo-200/80 p-3.5 sm:p-5">
+
+      <!-- Integrated Anthem Music Player -->
+      <div class="rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-purple-950 text-white p-3 sm:px-4 sm:py-3 mb-3.5 shadow-inner">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <!-- Track Info & Animated Disc -->
+          <div class="flex items-center gap-3 min-w-[180px]">
+            <div id="player-disc" class="w-9 h-9 rounded-full bg-gradient-to-tr from-teal-400 to-indigo-500 flex items-center justify-center shadow-md shrink-0">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded bg-teal-500/25 text-teal-300 border border-teal-400/30">
+                  Anthem Player
+                </span>
+                <span id="player-status-text" class="text-[11px] text-indigo-200 font-medium">Ready to play</span>
+              </div>
+              <p class="text-xs sm:text-sm font-bold text-white truncate">On the Move: The Migration Anthem</p>
+            </div>
+          </div>
+
+          <!-- Play, Pause & Stop Controls -->
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="btn-play-music"
+              onclick="playAnthemMusic()"
+              class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow transition cursor-pointer"
+              title="Play Migration Anthem"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              Play
+            </button>
+
+            <button
+              type="button"
+              id="btn-pause-music"
+              onclick="pauseAnthemMusic()"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs sm:text-sm shadow transition cursor-pointer"
+              title="Pause Music"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              Pause
+            </button>
+
+            <button
+              type="button"
+              id="btn-stop-music"
+              onclick="stopAnthemMusic()"
+              class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-extrabold text-xs sm:text-sm shadow transition cursor-pointer"
+              title="Stop & Reset Music to 0:00"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+              Stop
+            </button>
+          </div>
+
+          <!-- Timeline Scrubber & Time Counter -->
+          <div class="flex items-center gap-2.5 w-full lg:w-auto lg:min-w-[230px]">
+            <span id="music-current-time" class="text-[11px] font-mono text-teal-200 w-9 text-right">0:00</span>
+            <input
+              type="range"
+              id="music-seek"
+              min="0"
+              max="100"
+              value="0"
+              step="0.1"
+              oninput="seekAnthemMusic(this.value)"
+              aria-label="Music timeline scrubber"
+              class="anthem-slider flex-1"
+            />
+            <span id="music-duration" class="text-[11px] font-mono text-indigo-200 w-9">0:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky Word Bank Header & Controls -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-purple-100 text-purple-700">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+          </span>
+          <h2 class="text-sm sm:text-base font-extrabold text-slate-800">Word Bank (Pinned While Scrolling)</h2>
+          <span id="remaining-words-badge" class="px-2.5 py-0.5 rounded-lg bg-teal-50 text-teal-700 border border-teal-200 text-xs font-bold">
+            24 left
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            onclick="shuffleWordBank(true)"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-xs font-bold shadow-sm transition cursor-pointer"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            SHUFFLE
+          </button>
+
+          <button
+            type="button"
+            id="toggle-wordbank-btn"
+            onclick="toggleWordBankDrawer()"
+            class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-200 transition cursor-pointer"
+            title="Minimize or expand Word Bank"
+          >
+            Minimize ▲
+          </button>
+        </div>
+      </div>
+
+      <!-- Word Bank Grid -->
+      <div id="word-bank-grid" class="mt-2.5 max-h-32 sm:max-h-40 overflow-y-auto pr-1 flex flex-wrap gap-1.5 sm:gap-2" aria-label="Word Bank Options"></div>
+    </section>
+
+    <!-- ========================================================================
+         3. CONTEXTUAL HINT BANNER
+         ======================================================================== -->
+    <div id="hint-banner" class="hidden rounded-2xl bg-gradient-to-r from-sky-50 to-indigo-50 border-2 border-indigo-200 p-4 shadow-sm transition-all">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-start gap-3">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-600 text-white font-bold shrink-0 mt-0.5">
+            💡
+          </span>
+          <div>
+            <p id="hint-title" class="text-xs font-extrabold uppercase tracking-wider text-indigo-700">
+              Hint for Blank #1
+            </p>
+            <p id="hint-text" class="text-sm sm:text-base font-medium text-slate-800 mt-0.5">
+              Contextual clue appears here.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onclick="closeHint()"
+          class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-white/80 transition"
+          aria-label="Close hint"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- Review Mode Active Banner -->
+    <div id="review-mode-banner" class="hidden rounded-2xl bg-amber-50 border-2 border-amber-300 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="text-xl">🔍</span>
+        <div>
+          <p class="text-sm font-bold text-amber-900">Review Mistakes Mode Active</p>
+          <p class="text-xs text-amber-800">Showing only sections with incorrect or unanswered blanks. Fix your answers and click <strong>CHECK MY ANSWERS</strong> again!</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        onclick="exitReviewMode()"
+        class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm transition self-start sm:self-auto"
+      >
+        Show All Lyrics
+      </button>
+    </div>
+
+    <!-- ========================================================================
+         4. INTERACTIVE FILL-IN-THE-BLANK WORKSHEET (COMPLETE LYRICS)
+         ======================================================================== -->
+    <section aria-label="Migration Anthem Lyrics Worksheet" class="space-y-5">
+      <div class="bg-white/95 backdrop-blur rounded-3xl shadow-md border border-blue-100 p-5 sm:p-8">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+          <div class="flex items-center gap-2.5">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-blue-100 text-blue-700 font-bold">
+              🎵
+            </span>
+            <div>
+              <h2 class="text-xl font-extrabold text-slate-800">On the Move: The Migration Anthem</h2>
+              <p class="text-xs text-slate-500">Fill in all 24 blanks. Click the <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 font-bold text-[10px]">?</span> next to any blank for a clue.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lyrics Stanzas Container -->
+        <div id="lyrics-container" class="space-y-6 text-base sm:text-[1.06rem] leading-[2.35] text-slate-700">
+
+          <!-- [Intro] -->
+          <div class="stanza-card rounded-2xl bg-gradient-to-br from-sky-50/80 to-indigo-50/60 border border-sky-100 p-5" data-stanza="intro">
+            <div class="inline-block px-3 py-0.5 rounded-full bg-sky-600 text-white text-xs font-extrabold tracking-wide mb-3">
+              [Intro]
+            </div>
+            <p class="stanza-text">
+              Who is a <span class="blank-slot" data-id="1"></span>? A person on the move, Going from one place to another in a brand-new groove! Listen up close to the rhythm and the beat, Every fact about migration right here on repeat!
+            </p>
+          </div>
+
+          <!-- [Verse 1] -->
+          <div class="stanza-card rounded-2xl bg-gradient-to-br from-indigo-50/70 to-purple-50/50 border border-indigo-100 p-5" data-stanza="verse1">
+            <div class="inline-block px-3 py-0.5 rounded-full bg-indigo-600 text-white text-xs font-extrabold tracking-wide mb-3">
+              [Verse 1]
+            </div>
+            <p class="stanza-text">
+              <span class="blank-slot" data-id="2"></span> is the movement of the <span class="blank-slot" data-id="3"></span>, From one place to another across the map and nation, Crossing <span class="blank-slot" data-id="4"></span> of a village, a district, or a town, Across the states and oceans, moving all around! And check the data that we need to memorize: Malaysia’s population is projected on the rise— From <span class="blank-slot" data-id="5"></span> back in twenty-ten, To <span class="blank-slot" data-id="6"></span> by twenty-forty then!
+            </p>
+          </div>
+
+          <!-- [Chorus] (First Chorus with Blanks 7 & 8) -->
+          <div class="stanza-card rounded-2xl bg-gradient-to-r from-purple-50 via-fuchsia-50/50 to-teal-50 border-2 border-purple-200/80 p-5 shadow-xs" data-stanza="chorus1">
+            <div class="inline-block px-3 py-0.5 rounded-full bg-purple-600 text-white text-xs font-extrabold tracking-wide mb-3">
+              [Chorus]
+            </div>
+            <p class="stanza-text font-medium text-slate-800">
+              Oh, migration, split into types of two! <span class="blank-slot" data-id="7"></span> and <span class="blank-slot" data-id="8"></span>, making every move! Crossing over borders, near and far away, Learning our Geography the catchy, rhythmic way!
+            </p>
+          </div>
+
+          <!-- [Verse 2] -->
+          <div class="stanza-card rounded-2xl bg-gradient-to-br from-teal-50/80 to-emerald-50/50 border border-teal-100 p-5" data-stanza="verse2">
+            <div class="inline-block px-3 py-0.5 rounded-full bg-teal-600 text-white text-xs font-extrabold tracking-wide mb-3">
+              [Verse 2]
+            </div>
+            <div class="space-y-2.5 stanza-text">
+              <p>
+                Internal migration stays inside a <span class="blank-slot" data-id="9"></span>, Crossing village, district, city, and state demarcation. There are four main flows that you always need to know, With real Malaysian places showing where the people go!
+              </p>
+              <p class="pl-2 sm:pl-4 border-l-4 border-teal-300">
+                First, <span class="blank-slot" data-id="10"></span>—from Belaga into <span class="blank-slot" data-id="11"></span>,
+              </p>
+              <p class="pl-2 sm:pl-4 border-l-4 border-teal-300">
+                Second, <span class="blank-slot" data-id="12"></span>—where the countryside is calling, From Kampung Raja in Terengganu to <span class="blank-slot" data-id="13"></span> in Pahang,
+              </p>
+              <p class="pl-2 sm:pl-4 border-l-4 border-teal-300">
+                Third, <span class="blank-slot" data-id="14"></span>—Alor Setar to Kampung Kemelong, Sik in Kedah all along,
+              </p>
+              <p class="pl-2 sm:pl-4 border-l-4 border-teal-300">
+                Fourth, <span class="blank-slot" data-id="15"></span>—Seremban straight to <span class="blank-slot" data-id="16"></span>!
+              </p>
+            </div>
+          </div>
+
+          <!-- [Chorus] (Second Chorus - Complete Lyrics) -->
+          <div class="stanza-card rounded-2xl bg-gradient-to-r from-purple-50 via-fuchsia-50/50 to-teal-50 border border-purple-200/70 p-5" data-stanza="chorus2">
+            <div class="inline-block px-3 py-0.5 rounded-full bg-purple-600 text-white text-xs font-extrabold tracking-wide mb-3">
+              [Chorus]
+            </div>
+            <p class="stanza-text font-medium text-slate-800 leading-relaxed">
+              Oh, migration, split into types of two! Internal and international, making every move! Crossing over borders, near and far away, Learning our Geography the catchy, rhythmic way!
+            </p>
+          </div>
+
+          <!-- [Verse 3] -->
+          <div class="stanza-card rounded-2xl bg-gradient-to-br from-blue-50/80 to-cyan-50/60 border border-blue-100 p-5" data-stanza="verse3">
+            <div class="inline-block px-3 py-0.5 rounded-full bg-blue-600 text-white text-xs font-extrabold tracking-wide mb-3">
+              [Verse 3]
+            </div>
+            <div class="space-y-3 stanza-text">
+              <p>
+                Now we cross international borders far and wide, Moving from one country to another country's side! International migration divides into two tracks— <span class="blank-slot" data-id="17"></span>, <span class="blank-slot" data-id="18"></span>—let’s get the facts!
+              </p>
+              <p>
+                Emigration is <span class="blank-slot" data-id="19"></span> from your homeland’s door, Like Malaysians heading out to explore, Off to Japan, Australia, Canada, Brunei, and Singapore!
+              </p>
+              <p>
+                Immigration is <span class="blank-slot" data-id="20"></span> to live and work inside, Like workers coming to Malaysia from across the tide— From Indonesia, the Philippines, Vietnam, and Bangladesh too!
+              </p>
+            </div>
+          </div>
+
+          <!-- [Bridge] -->
+          <div class="stanza-card rounded-2xl bg-gradient-to-br from-violet-50/80 to-indigo-50/70 border border-violet-200 p-5" data-stanza="bridge">
+            <div class="inline-block px-3 py-0.5 rounded-full bg-violet-600 text-white text-xs font-extrabold tracking-wide mb-3">
+              [Bridge]
+            </div>
+            <div class="space-y-3 stanza-text">
+              <p>
+                Here’s one more special term before we hit the end: <span class="blank-slot" data-id="21"></span> is a <span class="blank-slot" data-id="22"></span> program that governments send!
+              </p>
+              <p>
+                Indonesia moved its people from crowded <span class="blank-slot" data-id="23"></span>’s land, To Sumatra, Irian Jaya, and Kalimantan as planned!
+              </p>
+              <p>
+                And wherever in the world your footsteps chance to roam, Remember this golden proverb about the place you call your home: Though gold may rain down in a foreign land so free, Still, nothing beats the beauty of your own <span class="blank-slot" data-id="24"></span>!
+              </p>
+            </div>
+          </div>
+
+          <!-- [Final Chorus] -->
+          <div class="stanza-card rounded-2xl bg-gradient-to-r from-teal-50 via-sky-50 to-indigo-50 border-2 border-teal-200 p-5" data-stanza="final-chorus">
+            <div class="inline-block px-3 py-0.5 rounded-full bg-teal-600 text-white text-xs font-extrabold tracking-wide mb-3">
+              [Final Chorus]
+            </div>
+            <p class="stanza-text font-medium text-slate-800 leading-relaxed">
+              Oh, migration, split into types of two! Internal and international, making every move! Crossing over borders, near and far away, We mastered every detail of migration today!
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ======================================================================
+           5. ACTION BUTTONS BAR
+           ====================================================================== -->
+      <div class="bg-white/95 backdrop-blur rounded-3xl shadow-md border border-indigo-100 p-5 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <button
+          type="button"
+          id="check-answers-btn"
+          onclick="checkAnswers()"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-teal-500/25 transform hover:-translate-y-0.5 transition cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          CHECK MY ANSWERS
+        </button>
+
+        <button
+          type="button"
+          id="review-mistakes-btn"
+          onclick="toggleReviewMistakes()"
+          class="hidden inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm sm:text-base shadow-md transition cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          REVIEW MISTAKES
+        </button>
+
+        <button
+          type="button"
+          onclick="resetActivity()"
+          class="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-700 border border-slate-200 hover:border-rose-200 font-bold text-sm sm:text-base transition cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          RESET ACTIVITY
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         6. SCORE & FEEDBACK RESULTS DASHBOARD
+         ======================================================================== -->
+    <section id="results-dashboard" class="hidden rounded-3xl bg-white shadow-xl border-2 border-indigo-200 overflow-hidden transition-all">
+      <div id="mastery-banner" class="hidden bg-gradient-to-r from-amber-400 via-yellow-400 to-teal-400 text-slate-900 px-6 py-4 text-center">
+        <p class="text-base sm:text-xl font-extrabold tracking-tight flex items-center justify-center gap-2">
+          <span>🏆🎉</span>
+          <span>CONGRATULATIONS! You have mastered the Migration Anthem!</span>
+          <span>🎉🏆</span>
+        </p>
+      </div>
+
+      <div class="p-6 sm:p-8">
+        <div class="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
+          <div class="relative w-36 h-36 sm:w-40 sm:h-40 shrink-0 flex items-center justify-center">
+            <svg class="w-full h-full" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#e2e8f0" stroke-width="11" />
+              <circle
+                id="score-ring-circle"
+                class="score-ring-circle"
+                cx="60"
+                cy="60"
+                r="50"
+                fill="none"
+                stroke="#10b981"
+                stroke-width="11"
+                stroke-linecap="round"
+                stroke-dasharray="314.16"
+                stroke-dashoffset="314.16"
+              />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+              <span id="score-percentage-big" class="text-2xl sm:text-3xl font-extrabold text-slate-800">0%</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Accuracy</span>
+            </div>
+          </div>
+
+          <div class="flex-1 text-center md:text-left space-y-3">
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
+              <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-extrabold uppercase tracking-wider">
+                Performance Report
+              </span>
+              <span id="report-student-meta" class="text-xs font-semibold text-slate-500"></span>
+            </div>
+
+            <h3 id="score-headline" class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              Score: 0 / 24
+            </h3>
+
+            <div id="motivational-box" class="inline-block px-4 py-2.5 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-900 font-bold text-sm sm:text-base">
+              Keep Learning! Review the migration anthem and try again!
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+              <div class="rounded-2xl bg-emerald-50 border border-emerald-200 p-3 text-center">
+                <div id="stat-correct" class="text-xl sm:text-2xl font-extrabold text-emerald-700">0</div>
+                <div class="text-xs font-bold text-emerald-800">Correct ✓</div>
+              </div>
+              <div class="rounded-2xl bg-rose-50 border border-rose-200 p-3 text-center">
+                <div id="stat-incorrect" class="text-xl sm:text-2xl font-extrabold text-rose-700">0</div>
+                <div class="text-xs font-bold text-rose-800">Incorrect ✗</div>
+              </div>
+              <div class="rounded-2xl bg-amber-50 border border-amber-200 p-3 text-center">
+                <div id="stat-unanswered" class="text-xl sm:text-2xl font-extrabold text-amber-700">0</div>
+                <div class="text-xs font-bold text-amber-800">Unanswered !</div>
+              </div>
+              <div class="rounded-2xl bg-sky-50 border border-sky-200 p-3 text-center">
+                <div id="stat-percentage" class="text-xl sm:text-2xl font-extrabold text-sky-700">0%</div>
+                <div class="text-xs font-bold text-sky-800">Percentage</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         7. FULL LYRICS RELEASE SECTION
+         ======================================================================== -->
+    <section id="full-lyrics-release" class="hidden rounded-3xl bg-white shadow-xl border-2 border-teal-300 overflow-hidden transition-all">
+      <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-500 text-white px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl shrink-0">
+            📜
+          </span>
+          <div>
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-white/20 text-[11px] font-extrabold uppercase tracking-wider mb-1">
+              Full Anthem Lyrics Unlocked • Study & Sing-Along
+            </div>
+            <h2 class="text-xl sm:text-2xl font-extrabold">On the Move: The Migration Anthem (Complete Lyrics)</h2>
+            <p class="text-xs sm:text-sm text-teal-100">All 24 fill-in-the-blank keywords are shown in <strong>bold</strong> for easy revision!</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onclick="copyFullLyrics()"
+            class="px-3.5 py-2 rounded-xl bg-white text-indigo-700 hover:bg-indigo-50 font-bold text-xs sm:text-sm shadow transition cursor-pointer"
+          >
+            📋 Copy Lyrics
+          </button>
+          <button
+            type="button"
+            onclick="window.print()"
+            class="px-3.5 py-2 rounded-xl bg-slate-900/35 hover:bg-slate-900/50 text-white border border-white/25 font-bold text-xs sm:text-sm transition cursor-pointer"
+          >
+            🖨️ Print
+          </button>
+        </div>
+      </div>
+
+      <div id="full-lyrics-content" class="p-6 sm:p-8 space-y-5 text-slate-800 text-base sm:text-[1.05rem] leading-relaxed bg-gradient-to-b from-white to-slate-50/70"></div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-5xl mx-auto px-4 py-6 text-center text-xs text-slate-500">
+    <strong>CODE ZERO LAB</strong> • Form 2 Geography Interactive Worksheet • Population Migration • Designed for Classroom & Self-Paced Learning
+  </footer>
+
+  <!-- ==========================================================================
+       JAVASCRIPT: DATA, STATE, INTERACTION, CHECKING, HINTS, CONFETTI & AUDIO
+       ========================================================================== -->
+  <script>
+    /**
+     * 1. MASTER ANSWER KEY & CONTEXTUAL HINTS (1 to 24)
+     */
+    const QUESTIONS = [
+      { id: 1, answer: "migrant", hint: "A noun referring to an individual person who moves from one place to another to live or work." },
+      { id: 2, answer: "Migration", hint: "The geographical term for the movement of people from one place to another." },
+      { id: 3, answer: "population", hint: "All the people or inhabitants living in a particular area, town, or country." },
+      { id: 4, answer: "borders", hint: "The official boundaries or dividing lines separating villages, districts, states, or countries." },
+      { id: 5, answer: "28.6 million", hint: "Malaysia’s population figure recorded in the year 2010 (in millions)." },
+      { id: 6, answer: "41.5 million", hint: "Malaysia’s projected population figure by the year 2040 (over 40 million)." },
+      { id: 7, answer: "Internal", hint: "Type of migration that takes place within the same country (starts with 'I')." },
+      { id: 8, answer: "international", hint: "Type of migration that crosses boundaries from one country into another country." },
+      { id: 9, answer: "single nation", hint: "Two words meaning 'one country'—internal migration never leaves this." },
+      { id: 10, answer: "rural to urban", hint: "Movement from a countryside area towards a city." },
+      { id: 11, answer: "Kuching", hint: "The capital city of Sarawak in East Malaysia." },
+      { id: 12, answer: "rural to rural", hint: "Movement from one countryside or village area to another countryside or land-scheme area." },
+      { id: 13, answer: "FELDA Chini", hint: "A famous rural agricultural land development scheme in Pahang." },
+      { id: 14, answer: "urban to rural", hint: "Movement from a town or city back to a countryside or village area." },
+      { id: 15, answer: "urban to urban", hint: "Movement from one town or city to another larger city." },
+      { id: 16, answer: "Shah Alam", hint: "The state capital city of Selangor." },
+      { id: 17, answer: "Emigration", hint: "Leaving your own country to live or work abroad (starts with 'E', like 'Exit')." },
+      { id: 18, answer: "immigration", hint: "Entering a foreign country to live or work there (starts with 'I', like 'In')." },
+      { id: 19, answer: "moving out", hint: "Two-word phrase describing exiting or departing from your homeland." },
+      { id: 20, answer: "moving in", hint: "Two-word phrase describing entering a destination country to reside or work." },
+      { id: 21, answer: "Transmigration", hint: "A government-organized relocation of people from overcrowded regions to less populated areas." },
+      { id: 22, answer: "planned migration", hint: "Two-word phrase meaning migration intentionally organized and managed by a government." },
+      { id: 23, answer: "Java", hint: "Indonesia’s most densely populated island, where Jakarta is located." },
+      { id: 24, answer: "home country", hint: "Two-word phrase meaning your own native land or motherland." }
+    ];
+
+    // Application State
+    let shuffledWords = [];
+    let activeBlankId = 1;
+    let isChecked = false;
+    let isReviewMode = false;
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    // Gamification State
+    let xpPoints = 0;
+    let currentStreak = 0;
+    let hintsUsedCount = 0;
+    let wordBankMinimized = false;
+    const awardedBlankXp = new Set();
+    const unlockedBadges = new Set();
+
+    // Music Player State
+    let isFallbackBeatPlaying = false;
+    let fallbackBeatTimer = null;
+    let fallbackBeatSeconds = 0;
+
+    function normalizeText(str) {
+      return (str || "").trim().replace(/\s+/g, " ").toLowerCase();
+    }
+
+    /**
+     * ==========================================================================
+     * MUSIC PLAYER CONTROLS (PLAY, PAUSE, STOP & SEEK)
+     * ==========================================================================
+     */
+    function initMusicPlayer() {
+      const audio = document.getElementById("anthem-audio");
+      if (!audio) return;
+
+      audio.addEventListener("loadedmetadata", () => {
+        document.getElementById("music-duration").textContent = formatTime(audio.duration);
+        document.getElementById("music-seek").max = audio.duration || 100;
+      });
+
+      audio.addEventListener("timeupdate", () => {
+        if (!isFallbackBeatPlaying) {
+          document.getElementById("music-current-time").textContent = formatTime(audio.currentTime);
+          document.getElementById("music-seek").value = audio.currentTime;
+        }
+      });
+
+      audio.addEventListener("ended", () => {
+        stopAnthemMusic();
+      });
+    }
+
+    function formatTime(sec) {
+      if (!sec || isNaN(sec)) return "0:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s < 10 ? "0" : ""}${s}`;
+    }
+
+    function playAnthemMusic() {
+      const audio = document.getElementById("anthem-audio");
+      const statusText = document.getElementById("player-status-text");
+      const disc = document.getElementById("player-disc");
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            stopFallbackBeat();
+            statusText.textContent = "Playing Anthem 🎶";
+            statusText.className = "text-[11px] text-emerald-300 font-bold";
+            disc.classList.add("animate-spin");
+          })
+          .catch(() => {
+            startFallbackBeat();
+          });
+      }
+    }
+
+    function pauseAnthemMusic() {
+      const audio = document.getElementById("anthem-audio");
+      const statusText = document.getElementById("player-status-text");
+      const disc = document.getElementById("player-disc");
+
+      if (!audio.paused) {
+        audio.pause();
+      }
+      if (isFallbackBeatPlaying) {
+        clearInterval(fallbackBeatTimer);
+        isFallbackBeatPlaying = false;
+      }
+      statusText.textContent = "Paused ⏸";
+      statusText.className = "text-[11px] text-amber-300 font-bold";
+      disc.classList.remove("animate-spin");
+    }
+
+    function stopAnthemMusic() {
+      const audio = document.getElementById("anthem-audio");
+      const statusText = document.getElementById("player-status-text");
+      const disc = document.getElementById("player-disc");
+
+      audio.pause();
+      audio.currentTime = 0;
+      stopFallbackBeat();
+
+      document.getElementById("music-current-time").textContent = "0:00";
+      document.getElementById("music-seek").value = 0;
+      statusText.textContent = "Stopped ⏹";
+      statusText.className = "text-[11px] text-indigo-200 font-medium";
+      disc.classList.remove("animate-spin");
+    }
+
+    function seekAnthemMusic(val) {
+      const audio = document.getElementById("anthem-audio");
+      if (audio && audio.duration) {
+        audio.currentTime = parseFloat(val);
+      } else if (isFallbackBeatPlaying) {
+        fallbackBeatSeconds = Math.floor(parseFloat(val));
+        document.getElementById("music-current-time").textContent = formatTime(fallbackBeatSeconds);
+      }
+    }
+
+    function startFallbackBeat() {
+      if (isFallbackBeatPlaying) return;
+      isFallbackBeatPlaying = true;
+      const statusText = document.getElementById("player-status-text");
+      const disc = document.getElementById("player-disc");
+      statusText.textContent = "Playing Synth Beat (Audio file not found)";
+      statusText.className = "text-[11px] text-teal-300 font-bold";
+      disc.classList.add("animate-spin");
+      document.getElementById("music-duration").textContent = "1:30";
+      document.getElementById("music-seek").max = 90;
+
+      const scale = [261.63, 329.63, 392.0, 523.25, 392.0, 329.63];
+      let step = 0;
+
+      fallbackBeatTimer = setInterval(() => {
+        if (!isFallbackBeatPlaying) return;
+        playTone(scale[step % scale.length], 0.14, "triangle");
+        step++;
+        if (step % 2 === 0) {
+          fallbackBeatSeconds++;
+          if (fallbackBeatSeconds > 90) fallbackBeatSeconds = 0;
+          document.getElementById("music-current-time").textContent = formatTime(fallbackBeatSeconds);
+          document.getElementById("music-seek").value = fallbackBeatSeconds;
+        }
+      }, 500);
+    }
+
+    function stopFallbackBeat() {
+      isFallbackBeatPlaying = false;
+      fallbackBeatSeconds = 0;
+      if (fallbackBeatTimer) {
+        clearInterval(fallbackBeatTimer);
+        fallbackBeatTimer = null;
+      }
+    }
+
+    function toggleWordBankDrawer() {
+      wordBankMinimized = !wordBankMinimized;
+      const grid = document.getElementById("word-bank-grid");
+      const btn = document.getElementById("toggle-wordbank-btn");
+      if (wordBankMinimized) {
+        grid.classList.add("hidden");
+        btn.textContent = "Expand ▼";
+      } else {
+        grid.classList.remove("hidden");
+        btn.textContent = "Minimize ▲";
+      }
+    }
+
+    /**
+     * ==========================================================================
+     * GAMIFICATION ENGINE
+     * ==========================================================================
+     */
+    function awardXp(amount, label = "") {
+      if (amount <= 0) return;
+      xpPoints += amount;
+      updateGamificationHUD();
+
+      const floater = document.createElement("div");
+      floater.className = "xp-floater px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-extrabold text-xs shadow-lg";
+      floater.style.left = `${Math.min(window.innerWidth - 140, Math.max(20, window.innerWidth * 0.72))}px`;
+      floater.style.top = "70px";
+      floater.textContent = `+${amount} XP ${label ? "• " + label : ""}`;
+      document.body.appendChild(floater);
+      setTimeout(() => floater.remove(), 1150);
+    }
+
+    function unlockBadge(badgeId, title) {
+      if (unlockedBadges.has(badgeId)) return;
+      unlockedBadges.add(badgeId);
+      const el = document.getElementById(badgeId);
+      if (el) {
+        el.classList.remove("bg-slate-100", "text-slate-400", "border-slate-200");
+        el.classList.add("bg-gradient-to-r", "from-amber-100", "to-yellow-100", "text-amber-900", "border-amber-300", "shadow-xs", "badge-unlocked");
+      }
+      showToast(`🏅 Achievement Unlocked: ${title}!`, "success");
+    }
+
+    function updateGamificationHUD() {
+      let rankTitle = "Level 1 — Rookie Explorer";
+      let shortRank = "Lvl 1 • Explorer";
+      if (xpPoints >= 700) {
+        rankTitle = "Level 5 — Migration Legend";
+        shortRank = "Lvl 5 • Legend";
+      } else if (xpPoints >= 450) {
+        rankTitle = "Level 4 — Geography Pro";
+        shortRank = "Lvl 4 • Geo Pro";
+      } else if (xpPoints >= 250) {
+        rankTitle = "Level 3 — Border Hopper";
+        shortRank = "Lvl 3 • Hopper";
+      } else if (xpPoints >= 100) {
+        rankTitle = "Level 2 — Map Navigator";
+        shortRank = "Lvl 2 • Navigator";
+      }
+
+      document.getElementById("xp-badge").textContent = `⚡ ${xpPoints} XP`;
+      document.getElementById("rank-badge").textContent = shortRank;
+      document.getElementById("hud-rank-title").textContent = `Rank: ${rankTitle}`;
+      document.getElementById("hud-xp-total").textContent = `${xpPoints} XP`;
+      document.getElementById("streak-count").textContent = currentStreak;
+    }
+
+    function playTone(freq = 523.25, duration = 0.09, type = "sine") {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return;
+          audioCtx = new AudioContextClass();
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playFanfare() {
+      if (!soundEnabled) return;
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, 0.22, "triangle"), idx * 110);
+      });
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById("sound-on-icon").classList.toggle("hidden", !soundEnabled);
+      document.getElementById("sound-off-icon").classList.toggle("hidden", soundEnabled);
+      showToast(soundEnabled ? "Musical sound effects enabled" : "Sound effects muted", "info");
+    }
+
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+
+      const styles = {
+        info: "bg-slate-800 text-white border-slate-700",
+        success: "bg-emerald-700 text-white border-emerald-600",
+        warning: "bg-amber-600 text-white border-amber-500"
+      };
+
+      toast.className = `pointer-events-auto px-4 py-3 rounded-2xl shadow-lg border text-xs sm:text-sm font-semibold flex items-center justify-between gap-3 transform transition-all duration-300 translate-y-2 opacity-0 ${styles[type] || styles.info}`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove("translate-y-2", "opacity-0");
+      });
+
+      setTimeout(() => {
+        toast.classList.add("translate-y-2", "opacity-0");
+        setTimeout(() => toast.remove(), 300);
+      }, 2800);
+    }
+
+    function renderWorksheetBlanks() {
+      const slots = document.querySelectorAll(".blank-slot");
+      slots.forEach((slot) => {
+        const id = parseInt(slot.getAttribute("data-id"), 10);
+        const question = QUESTIONS.find((q) => q.id === id);
+        if (!question) return;
+
+        slot.className = "blank-slot inline-flex flex-wrap items-center gap-1 align-middle my-0.5 mx-0.5";
+        slot.innerHTML = `
+          <span class="inline-flex items-center px-1.5 py-0.5 rounded-md bg-indigo-100 text-indigo-800 font-extrabold text-xs select-none">(${id})</span>
+          <span class="relative inline-flex items-center">
+            <input
+              type="text"
+              id="blank-input-${id}"
+              data-blank-id="${id}"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Blank number ${id}"
+              placeholder="Answer ${id}"
+              class="blank-input"
+            />
+            <button
+              type="button"
+              id="clear-btn-${id}"
+              onclick="clearSingleBlank(${id})"
+              title="Clear blank #${id}"
+              aria-label="Clear blank ${id}"
+              class="hidden absolute right-2 text-slate-400 hover:text-rose-600 font-bold text-xs px-1 cursor-pointer"
+            >
+              ×
+            </button>
+          </span>
+          <span id="status-icon-${id}" class="hidden inline-flex items-center justify-center w-5 h-5 rounded-full text-xs font-extrabold"></span>
+          <button
+            type="button"
+            onclick="showHint(${id})"
+            title="Show hint for blank #${id}"
+            aria-label="Show hint for blank ${id}"
+            class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-sky-100 hover:bg-indigo-600 text-indigo-700 hover:text-white font-extrabold text-xs transition cursor-pointer shadow-2xs"
+          >
+            ?
+          </button>
+          <span id="correction-badge-${id}" class="hidden text-xs font-bold px-2 py-0.5 rounded-lg bg-rose-100 text-rose-800 border border-rose-200"></span>
+        `;
+
+        const inputEl = slot.querySelector("input");
+
+        inputEl.addEventListener("focus", () => setActiveBlank(id));
+        inputEl.addEventListener("click", () => setActiveBlank(id));
+
+        inputEl.addEventListener("input", () => {
+          adjustInputWidth(inputEl);
+          clearBlankCheckState(id);
+          updateUIState();
+        });
+
+        inputEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const nextId = id < 24 ? id + 1 : 1;
+            const nextInput = document.getElementById(`blank-input-${nextId}`);
+            if (nextInput) {
+              nextInput.focus();
+            }
+          }
+        });
+      });
+
+      setActiveBlank(1);
+    }
+
+    function adjustInputWidth(inputEl) {
+      const len = inputEl.value.length;
+      const baseWidth = window.innerWidth < 640 ? 155 : 175;
+      const computedWidth = Math.max(baseWidth, len * 9.5 + 42);
+      inputEl.style.width = `${computedWidth}px`;
+    }
+
+    function setActiveBlank(id) {
+      activeBlankId = id;
+      document.querySelectorAll(".blank-input").forEach((inp) => {
+        inp.classList.remove("is-active");
+      });
+      const current = document.getElementById(`blank-input-${id}`);
+      if (current) {
+        current.classList.add("is-active");
+      }
+      const indicator = document.getElementById("active-blank-indicator");
+      if (indicator) {
+        indicator.innerHTML = `Active Blank: <span class="font-bold text-purple-700">#${id}</span> (Click a word or type directly)`;
+      }
+    }
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function shuffleWordBank(notify = false) {
+      const allAnswers = QUESTIONS.map((q) => q.answer);
+      shuffledWords = shuffleArray(allAnswers);
+      renderWordBank();
+      updateUIState();
+      if (notify) {
+        playTone(659.25, 0.08);
+        showToast("Word Bank shuffled!", "info");
+      }
+    }
+
+    function renderWordBank() {
+      const grid = document.getElementById("word-bank-grid");
+      grid.innerHTML = "";
+
+      shuffledWords.forEach((word) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.setAttribute("data-word", word);
+        btn.className =
+          "word-chip px-3.5 py-2 rounded-xl bg-gradient-to-b from-white to-indigo-50/70 border-2 border-indigo-200 text-slate-800 font-semibold text-xs sm:text-sm shadow-2xs cursor-pointer flex items-center gap-1.5";
+        btn.innerHTML = `<span class="chip-check hidden text-emerald-600 font-extrabold">✓</span><span>${word}</span>`;
+
+        btn.addEventListener("click", () => handleWordChipClick(word));
+        grid.appendChild(btn);
+      });
+    }
+
+    function handleWordChipClick(word) {
+      const normWord = normalizeText(word);
+
+      let existingBlankId = null;
+      for (let i = 1; i <= 24; i++) {
+        const inp = document.getElementById(`blank-input-${i}`);
+        if (inp && normalizeText(inp.value) === normWord) {
+          existingBlankId = i;
+          break;
+        }
+      }
+
+      if (existingBlankId !== null) {
+        const targetInput = document.getElementById(`blank-input-${existingBlankId}`);
+        if (targetInput) {
+          targetInput.scrollIntoView({ behavior: "smooth", block: "center" });
+          targetInput.focus();
+          targetInput.classList.remove("pulse-target");
+          void targetInput.offsetWidth;
+          targetInput.classList.add("pulse-target");
+        }
+        playTone(392.0, 0.09);
+        showToast(`"${word}" is already used in Blank #${existingBlankId}. Click × on that blank to clear it.`, "warning");
+        return;
+      }
+
+      let targetId = activeBlankId;
+      const activeInput = document.getElementById(`blank-input-${targetId}`);
+
+      if (!activeInput) {
+        targetId = findFirstEmptyBlankId() || 1;
+      }
+
+      const targetInput = document.getElementById(`blank-input-${targetId}`);
+      if (targetInput) {
+        targetInput.value = word;
+        adjustInputWidth(targetInput);
+        clearBlankCheckState(targetId);
+        playTone(587.33, 0.08);
+
+        if (!awardedBlankXp.has(targetId)) {
+          awardedBlankXp.add(targetId);
+          currentStreak++;
+          const streakBonus = currentStreak >= 3 ? 5 : 0;
+          awardXp(10 + streakBonus, currentStreak >= 3 ? `${currentStreak}x Streak!` : "Keyword Placed");
+          if (currentStreak >= 5) {
+            unlockBadge("badge-streak", "5x Combo");
+          }
+        }
+
+        updateUIState();
+
+        const nextEmpty = findNextEmptyBlankId(targetId);
+        if (nextEmpty !== null) {
+          setActiveBlank(nextEmpty);
+        } else {
+          setActiveBlank(targetId);
+        }
+      }
+    }
+
+    function findFirstEmptyBlankId() {
+      for (let i = 1; i <= 24; i++) {
+        const inp = document.getElementById(`blank-input-${i}`);
+        if (inp && inp.value.trim() === "") return i;
+      }
+      return null;
+    }
+
+    function findNextEmptyBlankId(fromId) {
+      for (let i = fromId + 1; i <= 24; i++) {
+        const inp = document.getElementById(`blank-input-${i}`);
+        if (inp && inp.value.trim() === "") return i;
+      }
+      for (let i = 1; i < fromId; i++) {
+        const inp = document.getElementById(`blank-input-${i}`);
+        if (inp && inp.value.trim() === "") return i;
+      }
+      return null;
+    }
+
+    function clearSingleBlank(id) {
+      const inp = document.getElementById(`blank-input-${id}`);
+      if (!inp) return;
+      inp.value = "";
+      adjustInputWidth(inp);
+      clearBlankCheckState(id);
+      setActiveBlank(id);
+      inp.focus();
+      updateUIState();
+    }
+
+    function clearBlankCheckState(id) {
+      const inp = document.getElementById(`blank-input-${id}`);
+      const icon = document.getElementById(`status-icon-${id}`);
+      const badge = document.getElementById(`correction-badge-${id}`);
+
+      if (inp) {
+        inp.classList.remove("state-correct", "state-wrong", "state-unanswered");
+      }
+      if (icon) {
+        icon.classList.add("hidden");
+        icon.textContent = "";
+      }
+      if (badge) {
+        badge.classList.add("hidden");
+        badge.textContent = "";
+      }
+    }
+
+    function updateUIState() {
+      let filledCount = 0;
+      const usedNormalizedValues = new Set();
+
+      for (let i = 1; i <= 24; i++) {
+        const inp = document.getElementById(`blank-input-${i}`);
+        const clearBtn = document.getElementById(`clear-btn-${i}`);
+        if (!inp) continue;
+
+        const val = inp.value;
+        if (val.trim() !== "") {
+          filledCount++;
+          usedNormalizedValues.add(normalizeText(val));
+          if (clearBtn) clearBtn.classList.remove("hidden");
+        } else {
+          if (clearBtn) clearBtn.classList.add("hidden");
+        }
+      }
+
+      const pct = Math.round((filledCount / 24) * 100);
+      document.getElementById("progress-label").textContent = `${filledCount} / 24`;
+      document.getElementById("progress-bar-fill").style.width = `${pct}%`;
+
+      if (filledCount >= 1) {
+        unlockBadge("badge-first", "First Beat");
+      }
+      if (filledCount >= 12) {
+        unlockBadge("badge-halfway", "Halfway Hero");
+      }
+
+      let usedChipsCount = 0;
+      document.querySelectorAll(".word-chip").forEach((chip) => {
+        const word = chip.getAttribute("data-word");
+        const checkEl = chip.querySelector(".chip-check");
+        if (usedNormalizedValues.has(normalizeText(word))) {
+          chip.classList.add("is-used");
+          if (checkEl) checkEl.classList.remove("hidden");
+          usedChipsCount++;
+        } else {
+          chip.classList.remove("is-used");
+          if (checkEl) checkEl.classList.add("hidden");
+        }
+      });
+
+      const remaining = Math.max(0, 24 - usedChipsCount);
+      document.getElementById("remaining-words-badge").textContent = `${remaining} left`;
+    }
+
+    function showHint(id) {
+      const question = QUESTIONS.find((q) => q.id === id);
+      if (!question) return;
+
+      hintsUsedCount++;
+      setActiveBlank(id);
+      const banner = document.getElementById("hint-banner");
+      document.getElementById("hint-title").textContent = `Hint for Blank #${id}`;
+      document.getElementById("hint-text").textContent = question.hint;
+
+      banner.classList.remove("hidden");
+      banner.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      playTone(783.99, 0.08);
+    }
+
+    function closeHint() {
+      document.getElementById("hint-banner").classList.add("hidden");
+    }
+
+    function scrollToWordBank() {
+      document.getElementById("word-bank-section").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function checkAnswers() {
+      isChecked = true;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let unansweredCount = 0;
+
+      QUESTIONS.forEach((q) => {
+        const inp = document.getElementById(`blank-input-${q.id}`);
+        const icon = document.getElementById(`status-icon-${q.id}`);
+        const badge = document.getElementById(`correction-badge-${q.id}`);
+        if (!inp || !icon || !badge) return;
+
+        inp.classList.remove("state-correct", "state-wrong", "state-unanswered");
+        icon.classList.remove("hidden", "bg-emerald-600", "bg-rose-600", "bg-amber-500", "text-white");
+        badge.classList.add("hidden");
+
+        const userRaw = inp.value;
+        const userNorm = normalizeText(userRaw);
+        const correctNorm = normalizeText(q.answer);
+
+        if (userNorm === "") {
+          unansweredCount++;
+          inp.classList.add("state-unanswered");
+          icon.classList.add("bg-amber-500", "text-white");
+          icon.textContent = "!";
+          icon.title = "Unanswered";
+        } else if (userNorm === correctNorm) {
+          correctCount++;
+          inp.classList.add("state-correct");
+          icon.classList.add("bg-emerald-600", "text-white");
+          icon.textContent = "✓";
+          icon.title = "Correct!";
+        } else {
+          wrongCount++;
+          inp.classList.add("state-wrong");
+          icon.classList.add("bg-rose-600", "text-white");
+          icon.textContent = "✗";
+          icon.title = "Incorrect";
+
+          badge.textContent = `Correct: ${q.answer}`;
+          badge.classList.remove("hidden");
+        }
+      });
+
+      const percentage = Math.round((correctCount / 24) * 100);
+
+      let feedbackMessage = "";
+      let ringColor = "#ef4444";
+      if (correctCount >= 21) {
+        feedbackMessage = "Excellent! You are a Migration Master!";
+        ringColor = "#10b981";
+      } else if (correctCount >= 17) {
+        feedbackMessage = "Great Job! You understand migration very well!";
+        ringColor = "#0d9488";
+      } else if (correctCount >= 12) {
+        feedbackMessage = "Good Effort! Keep practising!";
+        ringColor = "#f59e0b";
+      } else {
+        feedbackMessage = "Keep Learning! Review the migration anthem and try again!";
+        ringColor = "#f43f5e";
+      }
+
+      const dashboard = document.getElementById("results-dashboard");
+      dashboard.classList.remove("hidden");
+
+      const studentName = document.getElementById("student-name").value.trim();
+      const studentClass = document.getElementById("student-class").value.trim();
+      const metaEl = document.getElementById("report-student-meta");
+      if (studentName || studentClass) {
+        metaEl.textContent = `Student: ${studentName || "—"} | Class: ${studentClass || "—"}`;
+      } else {
+        metaEl.textContent = "Form 2 Geography Student";
+      }
+
+      document.getElementById("score-headline").textContent = `Score: ${correctCount} / 24`;
+      document.getElementById("score-percentage-big").textContent = `${percentage}%`;
+      document.getElementById("motivational-box").textContent = feedbackMessage;
+
+      document.getElementById("stat-correct").textContent = correctCount;
+      document.getElementById("stat-incorrect").textContent = wrongCount;
+      document.getElementById("stat-unanswered").textContent = unansweredCount;
+      document.getElementById("stat-percentage").textContent = `${percentage}%`;
+
+      const circle = document.getElementById("score-ring-circle");
+      const circumference = 2 * Math.PI * 50;
+      const offset = circumference - (percentage / 100) * circumference;
+      circle.style.stroke = ringColor;
+      requestAnimationFrame(() => {
+        circle.style.strokeDashoffset = offset;
+      });
+
+      const reviewBtn = document.getElementById("review-mistakes-btn");
+      if (correctCount < 24) {
+        reviewBtn.classList.remove("hidden");
+      } else {
+        reviewBtn.classList.add("hidden");
+        if (isReviewMode) exitReviewMode();
+      }
+
+      const masteryBanner = document.getElementById("mastery-banner");
+      if (correctCount === 24) {
+        masteryBanner.classList.remove("hidden");
+        unlockBadge("badge-master", "Anthem Master (24/24)");
+        awardXp(250, "Anthem Mastered!");
+        playFanfare();
+        launchConfetti();
+      } else {
+        masteryBanner.classList.add("hidden");
+        playTone(440, 0.12);
+        if (correctCount > 0) {
+          awardXp(correctCount * 5, "Accuracy Bonus");
+        }
+      }
+
+      if (correctCount >= 18 && hintsUsedCount === 0) {
+        unlockBadge("badge-nohint", "Pure Genius (No Hints)");
+      }
+
+      if (unansweredCount === 0) {
+        releaseFullBoldLyrics();
+      }
+
+      dashboard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function releaseFullBoldLyrics() {
+      const section = document.getElementById("full-lyrics-release");
+      const container = document.getElementById("full-lyrics-content");
+      if (!section || !container) return;
+
+      const kw = (text) =>
+        `<strong class="font-extrabold text-indigo-800 bg-indigo-100/80 px-1.5 py-0.5 rounded-md border border-indigo-200/70">${text}</strong>`;
+
+      container.innerHTML = `
+        <div class="rounded-2xl bg-sky-50/70 border border-sky-100 p-4 sm:p-5">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-sky-700 mb-1.5">[Intro]</div>
+          <p>Who is a ${kw("migrant")}? A person on the move, Going from one place to another in a brand-new groove! Listen up close to the rhythm and the beat, Every fact about migration right here on repeat!</p>
+        </div>
+
+        <div class="rounded-2xl bg-indigo-50/70 border border-indigo-100 p-4 sm:p-5">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-indigo-700 mb-1.5">[Verse 1]</div>
+          <p>${kw("Migration")} is the movement of the ${kw("population")}, From one place to another across the map and nation, Crossing ${kw("borders")} of a village, a district, or a town, Across the states and oceans, moving all around! And check the data that we need to memorize: Malaysia’s population is projected on the rise— From ${kw("28.6 million")} back in twenty-ten, To ${kw("41.5 million")} by twenty-forty then!</p>
+        </div>
+
+        <div class="rounded-2xl bg-purple-50/80 border border-purple-200 p-4 sm:p-5">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-purple-700 mb-1.5">[Chorus]</div>
+          <p class="font-medium">Oh, migration, split into types of two! ${kw("Internal")} and ${kw("international")}, making every move! Crossing over borders, near and far away, Learning our Geography the catchy, rhythmic way!</p>
+        </div>
+
+        <div class="rounded-2xl bg-teal-50/70 border border-teal-100 p-4 sm:p-5 space-y-2">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-teal-700 mb-1.5">[Verse 2]</div>
+          <p>Internal migration stays inside a ${kw("single nation")}, Crossing village, district, city, and state demarcation. There are four main flows that you always need to know, With real Malaysian places showing where the people go!</p>
+          <p class="pl-3 border-l-4 border-teal-400">First, ${kw("rural to urban")}—from Belaga into ${kw("Kuching")},</p>
+          <p class="pl-3 border-l-4 border-teal-400">Second, ${kw("rural to rural")}—where the countryside is calling, From Kampung Raja in Terengganu to ${kw("FELDA Chini")} in Pahang,</p>
+          <p class="pl-3 border-l-4 border-teal-400">Third, ${kw("urban to rural")}—Alor Setar to Kampung Kemelong, Sik in Kedah all along,</p>
+          <p class="pl-3 border-l-4 border-teal-400">Fourth, ${kw("urban to urban")}—Seremban straight to ${kw("Shah Alam")}!</p>
+        </div>
+
+        <div class="rounded-2xl bg-purple-50/80 border border-purple-200 p-4 sm:p-5">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-purple-700 mb-1.5">[Chorus]</div>
+          <p class="font-medium">Oh, migration, split into types of two! Internal and international, making every move! Crossing over borders, near and far away, Learning our Geography the catchy, rhythmic way!</p>
+        </div>
+
+        <div class="rounded-2xl bg-blue-50/70 border border-blue-100 p-4 sm:p-5 space-y-2">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-blue-700 mb-1.5">[Verse 3]</div>
+          <p>Now we cross international borders far and wide, Moving from one country to another country's side! International migration divides into two tracks— ${kw("Emigration")}, ${kw("immigration")}—let’s get the facts!</p>
+          <p>Emigration is ${kw("moving out")} from your homeland’s door, Like Malaysians heading out to explore, Off to Japan, Australia, Canada, Brunei, and Singapore!</p>
+          <p>Immigration is ${kw("moving in")} to live and work inside, Like workers coming to Malaysia from across the tide— From Indonesia, the Philippines, Vietnam, and Bangladesh too!</p>
+        </div>
+
+        <div class="rounded-2xl bg-violet-50/70 border border-violet-200 p-4 sm:p-5 space-y-2">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-violet-700 mb-1.5">[Bridge]</div>
+          <p>Here’s one more special term before we hit the end: ${kw("Transmigration")} is a ${kw("planned migration")} program that governments send!</p>
+          <p>Indonesia moved its people from crowded ${kw("Java")}’s land, To Sumatra, Irian Jaya, and Kalimantan as planned!</p>
+          <p>And wherever in the world your footsteps chance to roam, Remember this golden proverb about the place you call your home: Though gold may rain down in a foreign land so free, Still, nothing beats the beauty of your own ${kw("home country")}!</p>
+        </div>
+
+        <div class="rounded-2xl bg-teal-50/90 border-2 border-teal-200 p-4 sm:p-5">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-teal-800 mb-1.5">[Final Chorus]</div>
+          <p class="font-medium">Oh, migration, split into types of two! Internal and international, making every move! Crossing over borders, near and far away, We mastered every detail of migration today!</p>
+        </div>
+      `;
+
+      section.classList.remove("hidden");
+    }
+
+    function copyFullLyrics() {
+      const content = document.getElementById("full-lyrics-content");
+      if (!content) return;
+      const temp = document.createElement("textarea");
+      temp.value = "ON THE MOVE: THE MIGRATION ANTHEM (CODE ZERO LAB)\n\n" + content.innerText;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      temp.remove();
+      showToast("Full lyrics copied to clipboard!", "success");
+    }
+
+    function toggleReviewMistakes() {
+      if (!isChecked) {
+        showToast("Click CHECK MY ANSWERS first to identify mistakes.", "warning");
+        return;
+      }
+
+      isReviewMode = !isReviewMode;
+      const reviewBanner = document.getElementById("review-mode-banner");
+      const stanzas = document.querySelectorAll(".stanza-card");
+
+      if (isReviewMode) {
+        reviewBanner.classList.remove("hidden");
+
+        stanzas.forEach((stanza) => {
+          const inputs = stanza.querySelectorAll(".blank-input");
+          if (inputs.length === 0) {
+            stanza.classList.add("hidden");
+            return;
+          }
+
+          let hasMistakeOrBlank = false;
+          inputs.forEach((inp) => {
+            const id = parseInt(inp.getAttribute("data-blank-id"), 10);
+            const q = QUESTIONS.find((item) => item.id === id);
+            if (!q || normalizeText(inp.value) !== normalizeText(q.answer)) {
+              hasMistakeOrBlank = true;
+            }
+          });
+
+          if (!hasMistakeOrBlank) {
+            stanza.classList.add("hidden");
+          } else {
+            stanza.classList.remove("hidden");
+          }
+        });
+
+        for (let i = 1; i <= 24; i++) {
+          const inp = document.getElementById(`blank-input-${i}`);
+          const q = QUESTIONS.find((item) => item.id === i);
+          if (inp && q && normalizeText(inp.value) !== normalizeText(q.answer)) {
+            setActiveBlank(i);
+            inp.scrollIntoView({ behavior: "smooth", block: "center" });
+            inp.focus();
+            break;
+          }
+        }
+      } else {
+        exitReviewMode();
+      }
+    }
+
+    function exitReviewMode() {
+      isReviewMode = false;
+      document.getElementById("review-mode-banner").classList.add("hidden");
+      document.querySelectorAll(".stanza-card").forEach((stanza) => {
+        stanza.classList.remove("hidden");
+      });
+    }
+
+    function resetActivity() {
+      isChecked = false;
+      exitReviewMode();
+      closeHint();
+
+      for (let i = 1; i <= 24; i++) {
+        const inp = document.getElementById(`blank-input-${i}`);
+        if (inp) {
+          inp.value = "";
+          adjustInputWidth(inp);
+        }
+        clearBlankCheckState(i);
+      }
+
+      document.getElementById("results-dashboard").classList.add("hidden");
+      document.getElementById("mastery-banner").classList.add("hidden");
+      document.getElementById("review-mistakes-btn").classList.add("hidden");
+      document.getElementById("full-lyrics-release").classList.add("hidden");
+
+      xpPoints = 0;
+      currentStreak = 0;
+      hintsUsedCount = 0;
+      awardedBlankXp.clear();
+      unlockedBadges.clear();
+      ["badge-first", "badge-halfway", "badge-streak", "badge-nohint", "badge-master"].forEach((bId) => {
+        const el = document.getElementById(bId);
+        if (el) {
+          el.className = "px-2.5 py-1 rounded-xl bg-slate-100 text-slate-400 border border-slate-200 text-[11px] font-bold transition";
+        }
+      });
+      updateGamificationHUD();
+
+      const circle = document.getElementById("score-ring-circle");
+      if (circle) {
+        circle.style.strokeDashoffset = "314.16";
+      }
+
+      setActiveBlank(1);
+      updateUIState();
+      playTone(493.88, 0.08);
+      showToast("Activity reset! All 24 blanks cleared.", "info");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function launchConfetti() {
+      const canvas = document.getElementById("confetti-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ["#3b82f6", "#8b5cf6", "#14b8a6", "#f59e0b", "#ec4899", "#10b981"];
+      const particles = [];
+
+      for (let i = 0; i < 150; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          w: Math.random() * 10 + 6,
+          h: Math.random() * 6 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vy: Math.random() * 3.5 + 2.2,
+          vx: (Math.random() - 0.5) * 2.5,
+          angle: Math.random() * 360,
+          spin: (Math.random() - 0.5) * 8
+        });
+      }
+
+      let frame = 0;
+      const maxFrames = 210;
+
+      function animateConfetti() {
+        frame++;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p) => {
+          p.y += p.vy;
+          p.x += p.vx;
+          p.angle += p.spin;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.angle * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+
+        if (frame < maxFrames) {
+          requestAnimationFrame(animateConfetti);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      animateConfetti();
+    }
+
+    window.addEventListener("resize", () => {
+      const canvas = document.getElementById("confetti-canvas");
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      for (let i = 1; i <= 24; i++) {
+        const inp = document.getElementById(`blank-input-${i}`);
+        if (inp) adjustInputWidth(inp);
+      }
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initMusicPlayer();
+      renderWorksheetBlanks();
+      shuffleWordBank(false);
+      updateGamificationHUD();
+    });
+  </script>
+</body>
+</html>

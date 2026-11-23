@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Zero Lab - About Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #d4f0ff; /* Sky blue background */
+            background-image: 
+                radial-gradient(circle at 15% 50px, white 20px, transparent 21px),
+                radial-gradient(circle at 25% 60px, white 25px, transparent 26px),
+                radial-gradient(circle at 10% 70px, white 15px, transparent 16px),
+                radial-gradient(circle at 85% 100px, white 30px, transparent 31px),
+                radial-gradient(circle at 95% 110px, white 20px, transparent 21px),
+                radial-gradient(circle at 75% 120px, white 25px, transparent 26px);
+            background-size: 100% 300px;
+            background-repeat: repeat-x;
+        }
+
+        /* Custom Text Strokes for Titles */
+        .text-stroke-black {
+            -webkit-text-stroke: 1.5px black;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+        
+        .text-stroke-thick {
+            -webkit-text-stroke: 2.5px black;
+            text-shadow: 4px 4px 0px rgba(0,0,0,1);
+        }
+
+        /* Lego Baseplate Background Pattern */
+        .bg-lego-baseplate {
+            background-color: #0ea5e9;
+            background-image: radial-gradient(#0284c7 20%, transparent 20%);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+            box-shadow: 
+                inset 0px 0px 0px 10px #0369a1,
+                inset 0px 0px 0px 14px #000,
+                8px 8px 0px rgba(0,0,0,0.3);
+        }
+
+        /* Custom Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #d4f0ff;
+            border-left: 2px solid black;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0ea5e9;
+            border: 2px solid black;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-black overflow-x-hidden p-4 md:p-8 flex flex-col items-center relative">
+
+     <!-- Header / Navigation -->
+    <header class="w-full max-w-[1400px] flex flex-col xl:flex-row justify-between items-center xl:items-center gap-8 mb-12 relative z-20">
+        
+        <!-- Logo Text -->
+        <div class="flex flex-col items-center xl:items-start justify-center gap-2 w-full xl:w-auto">
+            <h1 class="text-5xl md:text-6xl font-bold text-red-500 text-stroke-black tracking-wider">Code Zero Lab</h1>
+            <div class="flex items-center gap-2 xl:ml-2">
+                <div class="bg-red-600 text-white px-2 py-1 font-bold border-2 border-black text-2xl md:text-3xl shadow-[2px_2px_0_black]">LEGO</div>
+                <h1 class="text-5xl md:text-6xl font-bold text-yellow-400 text-stroke-black tracking-wider">GEOGRAPHY</h1>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <nav class="flex flex-nowrap justify-start xl:justify-end gap-3 md:gap-4 mt-2 overflow-x-auto w-full xl:w-auto pb-4 [&::-webkit-scrollbar]:hidden">
+            <!-- Nav Button 1: Home -->
+            <div class="relative group cursor-pointer pt-2 shrink-0">
+                <div class="absolute top-0 left-0 w-full flex justify-evenly px-2">
+                    <div class="w-4 h-2 bg-blue-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-blue-400"></div>
+                    <div class="w-4 h-2 bg-blue-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-blue-400"></div>
+                    <div class="w-4 h-2 bg-blue-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-blue-400"></div>
+                </div>
+                <a href="homepage.html" class="block whitespace-nowrap bg-blue-500 text-white font-bold py-2 px-5 border-2 border-black rounded relative z-10 shadow-[0_4px_0_black] active:translate-y-1 active:shadow-[0_0px_0_black] transition-all group-hover:bg-blue-400">
+                    Home 🏠
+                </a>
+            </div>
+
+            <!-- Nav Button 2: About Us -->
+            <div class="relative group cursor-pointer pt-2 shrink-0">
+                <div class="absolute top-0 left-0 w-full flex justify-evenly px-2">
+                    <div class="w-4 h-2 bg-red-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-red-400"></div>
+                    <div class="w-4 h-2 bg-red-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-red-400"></div>
+                    <div class="w-4 h-2 bg-red-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-red-400"></div>
+                </div>
+                <a href="tentangkami.html" class="block whitespace-nowrap bg-red-500 text-white font-bold py-2 px-5 border-2 border-black rounded relative z-10 shadow-[0_4px_0_black] active:translate-y-1 active:shadow-[0_0px_0_black] transition-all group-hover:bg-red-400">
+                    About Us 🏫
+                </a>
+            </div>
+
+            <!-- Nav Button 3: Learning Materials -->
+            <div class="relative group cursor-pointer pt-2 shrink-0">
+                <div class="absolute top-0 left-0 w-full flex justify-evenly px-2">
+                    <div class="w-4 h-2 bg-green-600 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-green-500"></div>
+                    <div class="w-4 h-2 bg-green-600 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-green-500"></div>
+                    <div class="w-4 h-2 bg-green-600 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-green-500"></div>
+                </div>
+                <a href="teachingmaterials.html" class="block whitespace-nowrap bg-green-600 text-white font-bold py-2 px-5 border-2 border-black rounded relative z-10 shadow-[0_4px_0_black] active:translate-y-1 active:shadow-[0_0px_0_black] transition-all group-hover:bg-green-500">
+                    Learning Materials 📝
+                </a>
+            </div>
+
+            <!-- Nav Button 4: Multimedia Resources -->
+            <div class="relative group cursor-pointer pt-2 shrink-0">
+                <div class="absolute top-0 left-0 w-full flex justify-evenly px-2">
+                    <div class="w-4 h-2 bg-purple-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-purple-400"></div>
+                    <div class="w-4 h-2 bg-purple-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-purple-400"></div>
+                    <div class="w-4 h-2 bg-purple-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-purple-400"></div>
+                </div>
+                <a href="multimedia.html" class="block whitespace-nowrap bg-purple-500 text-white font-bold py-2 px-5 border-2 border-black rounded relative z-10 shadow-[0_4px_0_black] active:translate-y-1 active:shadow-[0_0px_0_black] transition-all group-hover:bg-purple-400">
+                    Multimedia Resources 🎬
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Title -->
+    <div class="relative z-30 mb-[-30px] animate-float">
+        <h2 class="text-6xl md:text-8xl font-black text-yellow-400 text-stroke-thick tracking-wider">Who Are We?</h2>
+    </div>
+
+    <!-- Main Baseplate Container -->
+    <main class="bg-lego-baseplate w-full max-w-[1400px] rounded-2xl p-6 md:p-10 z-10 relative border-4 border-black">
+        
+        <!-- Members Grid Section -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
+            
+            <!-- Card 1 -->
+            <div class="bg-orange-500 p-3 rounded-xl border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+                <div class="bg-white border-4 border-black rounded-lg h-full p-4 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full border-4 border-gray-400 mb-4 flex items-center justify-center relative">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\mahir.jpg" alt="Mahir Fikri" class="w-full h-full object-cover rounded-full">
+                        <div class="absolute -top-2 -right-2 bg-white border-2 border-black rounded text-xs p-1 transform rotate-12 shadow-sm">🎤</div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Member 1</h3>
+                    <p class="text-sm font-semibold">MAHIR FIKRI BIN MOHAMMAD SHAH</p>
+                    <p class="text-xs mt-1 text-gray-600 font-bold">PRESIDENT</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-green-500 p-3 rounded-xl border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+                <div class="bg-white border-4 border-black rounded-lg h-full p-4 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full border-4 border-gray-400 mb-4 flex items-center justify-center relative">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\hanna.jpg" alt="Nurul Hannah" class="w-full h-full object-cover rounded-full">
+                        <div class="absolute -top-2 -right-2 bg-white border-2 border-black rounded text-xs p-1 transform rotate-12 shadow-sm">🎸</div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Member 2</h3>
+                    <p class="text-sm font-semibold">NURUL HANNAH BINTI AZIZUL KHAIRI</p>
+                    <p class="text-xs mt-1 text-gray-600 font-bold">VICE PRESIDENT</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-red-500 p-3 rounded-xl border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+                <div class="bg-white border-4 border-black rounded-lg h-full p-4 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full border-4 border-gray-400 mb-4 flex items-center justify-center relative">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\andy.jpg" alt="Anddyson Anak Inan" class="w-full h-full object-cover rounded-full">
+                        <div class="absolute -top-2 -right-2 bg-white border-2 border-black rounded text-xs p-1 transform rotate-12 shadow-sm">𝗥⟐𝗕𝗟◘𝗫</div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Member 3</h3>
+                    <p class="text-sm font-semibold">ANDDYSON ANAK INAN</p>
+                    <p class="text-xs mt-1 text-gray-600 font-bold">LEAD WEB DEVELOPER</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-blue-500 p-3 rounded-xl border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+                <div class="bg-white border-4 border-black rounded-lg h-full p-4 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full border-4 border-gray-400 mb-4 flex items-center justify-center relative">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\dayang.jpg" alt="Dayang Naqibah" class="w-full h-full object-cover rounded-full">
+                        <div class="absolute -top-2 -right-2 bg-white border-2 border-black rounded text-xs p-1 transform rotate-12 shadow-sm">LN⁴</div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Member 4</h3>
+                    <p class="text-sm font-semibold">DAYANG NAQIBAH BINTI ABANG ABDUL RANI</p>
+                    <p class="text-xs mt-1 text-gray-600 font-bold">WEB DEVELOPER ASSISTANT</p>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="bg-purple-500 p-3 rounded-xl border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+                <div class="bg-white border-4 border-black rounded-lg h-full p-4 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full border-4 border-gray-400 mb-4 flex items-center justify-center relative">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\rahman.jpg" alt="Abdul Rahman" class="w-full h-full object-cover rounded-full">
+                        <div class="absolute -top-2 -right-2 bg-white border-2 border-black rounded text-xs p-1 transform rotate-12 shadow-sm">🦕</div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Member 5</h3>
+                    <p class="text-sm font-semibold">ABDUL RAHMAN BIN ABD HALIM</p>
+                    <p class="text-xs mt-1 text-gray-600 font-bold">HEAD OF CURRICULUM</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="bg-yellow-400 p-3 rounded-xl border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+                <div class="bg-white border-4 border-black rounded-lg h-full p-4 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full border-4 border-gray-400 mb-4 flex items-center justify-center relative">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\lyana.jpg" alt="Lyana Zulkifli" class="w-full h-full object-cover rounded-full">
+                        <div class="absolute -top-2 -right-2 bg-white border-2 border-black rounded text-xs p-1 transform rotate-12 shadow-sm">🐈‍⬛</div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Member 6</h3>
+                    <p class="text-sm font-semibold">LYANA BINTI ZULKIFLI</p>
+                    <p class="text-xs mt-1 text-gray-600 font-bold">LESSON PLAN SPECIALIST</p>
+                </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="bg-pink-500 p-3 rounded-xl border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+                <div class="bg-white border-4 border-black rounded-lg h-full p-4 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full border-4 border-gray-400 mb-4 flex items-center justify-center relative">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\tasya.jpg" alt="Nur Natasya" class="w-full h-full object-cover rounded-full">
+                        <div class="absolute -top-2 -right-2 bg-white border-2 border-black rounded text-xs p-1 transform rotate-12 shadow-sm">💄</div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Member 7</h3>
+                    <p class="text-sm font-semibold">NUR NATASYA A`LIA BINTI AHMAD BASRI</p>
+                    <p class="text-xs mt-1 text-gray-600 font-bold">LEARNING MATERIALS DEVELOPER</p>
+                </div>
+            </div>
+
+            <!-- Card 8 -->
+            <div class="bg-teal-500 p-3 rounded-xl border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+                <div class="bg-white border-4 border-black rounded-lg h-full p-4 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full border-4 border-gray-400 mb-4 flex items-center justify-center relative">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\wani.jpg" alt="Nor Syazwani" class="w-full h-full object-cover rounded-full">
+                        <div class="absolute -top-2 -right-2 bg-white border-2 border-black rounded text-xs p-1 transform rotate-12 shadow-sm">📸</div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Member 8</h3>
+                    <p class="text-sm font-semibold">NOR SYAZWANIE BINTI RASHIDI</p>
+                    <p class="text-xs mt-1 text-gray-600 font-bold">QUALITY ASSURANCE & EDITOR</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Lower Section Layout (Disusun Satu Baris ke Bawah / Menegak) -->
+        <div class="flex flex-col gap-10 mt-10">
+            
+            <!-- Row 1: Poster Section (Full Width & Edge-to-Edge) -->
+            <div class="w-full bg-white border-4 border-black rounded-2xl shadow-[8px_8px_0_rgba(0,0,0,0.4)] overflow-hidden">
+                <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\groupintroductionposter.png" alt="Group Introduction Poster" class="w-full h-auto block">
+            </div>
+
+            <!-- Row 2: Group Logo Section (Full Width) -->
+            <div class="w-full bg-white border-4 border-black rounded-2xl p-6 lg:p-10 shadow-[8px_8px_0_rgba(0,0,0,0.4)] flex flex-col items-center">
+                <h3 class="text-3xl font-bold mb-10 text-center bg-gray-100 px-8 py-3 border-2 border-black rounded-lg inline-block z-10">Group Logo</h3>
+                
+                <div class="flex flex-col lg:flex-row items-start gap-12 w-full justify-center">
+                    
+                    <!-- Gambar Logo Sahaja -->
+                    <div class="w-full lg:w-1/3 flex items-center justify-center bg-white p-4 sticky top-10">
+                        <img src="C:\Users\ACER\Desktop\GEO-HUB\Images\logo.jpeg" alt="Code Zero Lab Logo" class="w-full max-w-[400px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300 rounded-xl">
+                    </div>
+
+                    <!-- Spacious Details Section (Penerangan Logo Lengkap) -->
+                    <div class="w-full lg:w-2/3 text-left bg-gray-50 p-8 lg:p-12 rounded-2xl border-4 border-gray-200 shadow-inner">
+                        
+                        <!-- Subtopik 1 -->
+                        <div class="mb-10">
+                            <h4 class="text-3xl font-extrabold text-blue-700 mb-6 border-b-4 border-blue-200 pb-3 flex items-center gap-3">
+                                <i class="fa-solid fa-shapes"></i> Core Visual Symbolism
+                            </h4>
+                            <ul class="space-y-6 text-gray-700 text-lg md:text-xl leading-relaxed font-medium">
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-blue-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">The Students:</strong> The three central characters represent an inclusive, forward-thinking generation of learners. Their attire reflects a familiar, localized student identity, highlighting a commitment to serving community classrooms. By holding tablets and digital pens, they are positioned as active digital natives rather than passive recipients of information.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-blue-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">The Academic Book and Graduation Cap:</strong> At the base of the logo rests an open book, symbolizing foundational knowledge. At the very top sits a graduation cap, representing the ultimate goal of academic success. Together, they frame the learning journey from fundamental reading to high-level achievement.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-blue-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">The Glowing Globe:</strong> The wireframe Earth in the background illustrates global connectivity and the borderless nature of modern education. It suggests that the skills learned here have global relevance.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-blue-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">Digital Interface Icons:</strong> Surrounding the students are floating icons representing Wi-Fi, multimedia (video player), cloud computing, and data analytics (bar chart). These highlight a curriculum heavily integrated with educational technology, spatial analysis, and digital literacy.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-blue-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">Circuit Board Lines:</strong> The golden circuitry lines connecting the elements represent the "Lab" aspect of the brand—a place of innovation, coding, and technological integration.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Subtopik 2 -->
+                        <div class="mb-10">
+                            <h4 class="text-3xl font-extrabold text-red-600 mb-6 border-b-4 border-red-200 pb-3 flex items-center gap-3">
+                                <i class="fa-solid fa-palette"></i> Typography & Color Palette
+                            </h4>
+                            <ul class="space-y-6 text-gray-700 text-lg md:text-xl leading-relaxed font-medium">
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-red-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">Deep Blue:</strong> Traditionally associated with trust, wisdom, and academia, the primary blue background establishes the brand as a reliable and professional educational authority.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-red-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">Vibrant Gold/Yellow:</strong> This color injects energy, optimism, and enlightenment into the design. It draws the eye to key elements like the technology icons and the central branding.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-red-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">The Stylized "ZERO":</strong> The letter 'O' in "ZERO" is designed with an orbital ring, resembling a planet or an atom. This signifies infinite possibilities, continuous motion, and the scientific/tech-focused nature of the lab.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Subtopik 3 -->
+                        <div>
+                            <h4 class="text-3xl font-extrabold text-green-600 mb-6 border-b-4 border-green-200 pb-3 flex items-center gap-3">
+                                <i class="fa-solid fa-quote-left"></i> The Tagline
+                            </h4>
+                            <p class="text-2xl font-bold text-gray-900 mb-6 text-center italic bg-yellow-100 py-4 rounded-xl border-4 border-yellow-300 shadow-sm">
+                                "Decoding from Zero: Establishing Future Education"
+                            </p>
+                            <ul class="space-y-6 text-gray-700 text-lg md:text-xl leading-relaxed font-medium">
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-green-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">Decoding from Zero:</strong> This implies making complex subjects (like coding, data analysis, or tech) accessible to beginners who have no prior knowledge. It promises a step-by-step, foundational approach to learning.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-play text-green-500 mt-2 text-base"></i>
+                                    <span><strong class="text-gray-900 text-xl">Establishing Future Education:</strong> This positions the platform as a trailblazer. It isn’t just following current trends; it is actively building pedagogical modules and learning environments that prepare students for the future.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: Our Vision Section (Full Width) -->
+            <div class="w-full bg-white border-4 border-black rounded-2xl p-8 lg:p-16 shadow-[8px_8px_0_rgba(0,0,0,0.4)] flex flex-col items-center text-center border-b-[16px] border-b-yellow-400">
+                <h3 class="text-5xl font-black mb-10 text-stroke-black text-white drop-shadow-md">Our Motto</h3>
+                
+                <!-- Compass / Star Icon -->
+                <div class="relative w-40 h-40 mb-10 animate-float">
+                    <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-2xl" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="50,5 60,40 95,50 60,60 50,95 40,60 5,50 40,40" fill="#facc15" stroke="#000" stroke-width="3"/>
+                        <polygon points="50,25 55,45 75,50 55,55 50,75 45,55 25,50 45,45" fill="#ca8a04" stroke="#000" stroke-width="2"/>
+                    </svg>
+                </div>
+
+                <!-- Decorative Lines -->
+                <div class="w-full max-w-4xl space-y-4 mb-10">
+                    <div class="border-b-4 border-black w-full rounded-full"></div>
+                </div>
+
+                <!-- Vision Text -->
+                <p class="text-3xl font-extrabold max-w-5xl leading-loose text-gray-800 italic">
+                    "Decoding from Zero: Establishing Future Education"
+                </p>
+            </div>
+
+        </div>
+    </main>
+    
+    <!-- Footer spacer -->
+    <div class="h-20 w-full"></div>
+
+</body>
+</html>
