@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGO Geography - Migration Infographic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-bg: #D6F1FF;
+            --lego-red: #F04438;
+            --lego-badge-red: #DF2020;
+            --lego-yellow: #FFD624;
+            --lego-blue: #3B82F6;
+            --lego-green: #16A34A;
+            --lego-purple: #A855F7;
+            --lego-orange: #FF6B1A;
+            --ink: #111111;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--sky-bg);
+            font-family: 'Nunito', sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Bulatan putih lembut di latar belakang */
+        .bg-circle {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .c1 { width: 46px; height: 46px; top: 14px; left: 13%; }
+        .c2 { width: 52px; height: 52px; top: 18px; left: 22.5%; }
+        .c3 { width: 50px; height: 50px; top: 74px; right: 22.5%; }
+        .c4 { width: 32px; height: 32px; top: 72px; right: 3.5%; }
+
+        /* Bintik stud terapung */
+        .dot {
+            position: fixed;
+            border-radius: 50%;
+            border: 2px solid var(--ink);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .dot-blue { width: 16px; height: 16px; background: var(--lego-blue); top: 31%; left: 2.5%; }
+        .dot-yellow { width: 22px; height: 22px; background: var(--lego-yellow); top: 21%; right: 3%; }
+        .dot-green { width: 22px; height: 22px; background: #22C55E; top: 61%; left: 3.3%; }
+
+        /* ================= HEADER & NAVIGASI ================= */
+        header {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px 38px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .brand-logo {
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .brand-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.95rem;
+            font-weight: 700;
+            color: var(--lego-red);
+            -webkit-text-stroke: 2px var(--ink);
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+            letter-spacing: 2px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .brand-sub {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 6px;
+        }
+
+        .lego-box {
+            background-color: var(--lego-badge-red);
+            color: var(--white);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1.55rem;
+            padding: 3px 11px;
+            border: 2px solid var(--ink);
+            box-shadow: 2px 2px 0 var(--ink);
+            letter-spacing: 0.5px;
+            line-height: 1.15;
+        }
+
+        .geo-word {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.85rem;
+            font-weight: 700;
+            color: var(--lego-yellow);
+            -webkit-text-stroke: 2px var(--ink);
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.22);
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+
+        /* Bar Navigasi Blok LEGO */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: nowrap;
+        }
+
+        .nav-brick {
+            position: relative;
+            text-decoration: none;
+            color: var(--white);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 9px 20px;
+            border: 1.8px solid var(--ink);
+            border-radius: 4px;
+            box-shadow: 0 3.5px 0 var(--ink);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: transform 0.14s ease, box-shadow 0.14s ease;
+        }
+
+        .nav-brick:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5.5px 0 var(--ink);
+        }
+
+        .nav-brick:active {
+            transform: translateY(2px);
+            box-shadow: 0 1.5px 0 var(--ink);
+        }
+
+        .nav-studs {
+            position: absolute;
+            top: -8px;
+            left: 16%;
+            right: 16%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .nav-studs span {
+            width: 14px;
+            height: 7px;
+            border: 1.8px solid var(--ink);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            background: inherit;
+        }
+
+        .brick-blue, .brick-blue .nav-studs span { background-color: var(--lego-blue); }
+        .brick-red, .brick-red .nav-studs span { background-color: var(--lego-red); }
+        .brick-green, .brick-green .nav-studs span { background-color: var(--lego-green); }
+        .brick-purple, .brick-purple .nav-studs span { background-color: var(--lego-purple); }
+
+        /* ================= RUANGAN INFOGRAFIK 16:9 ================= */
+        main {
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 20px 32px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .infographic-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: var(--white);
+            border: 3.5px solid var(--ink);
+            border-radius: 16px;
+            box-shadow: 0 9px 0 var(--ink);
+            overflow: hidden;
+            position: relative;
+            cursor: zoom-in;
+        }
+
+        .infographic-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background-color: var(--white);
+        }
+
+        /* Bar Butang Kawalan di Bawah Infografik */
+        .action-bar {
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .orange-lego-btn {
+            background-color: var(--lego-orange);
+            color: var(--white);
+            border: 2.5px solid var(--ink);
+            border-radius: 10px;
+            box-shadow: 0 5px 0 var(--ink);
+            padding: 10px 24px 12px;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.14s ease, box-shadow 0.14s ease;
+        }
+
+        .orange-lego-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 var(--ink);
+        }
+
+        .orange-lego-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--ink);
+        }
+
+        .inner-studs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .inner-studs span {
+            width: 14px;
+            height: 5px;
+            border: 1.8px solid var(--ink);
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .orange-btn-label {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            -webkit-text-stroke: 1.2px var(--ink);
+            letter-spacing: 0.5px;
+        }
+
+        .yellow-pill-btn {
+            background: var(--lego-yellow);
+            color: var(--ink);
+            border: 2.5px solid var(--ink);
+            border-radius: 50px;
+            padding: 13px 26px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            box-shadow: 0 5px 0 var(--ink);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.14s ease, box-shadow 0.14s ease;
+        }
+
+        .yellow-pill-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 var(--ink);
+        }
+
+        .yellow-pill-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--ink);
+        }
+
+        /* ================= MODAL ZOOM SKRIN PENUH ================= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.88);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--white);
+            border: 3.5px solid var(--ink);
+            border-radius: 16px;
+            box-shadow: 0 9px 0 var(--ink);
+            max-width: 1200px;
+            width: 100%;
+            max-height: 94vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--lego-yellow);
+            border-bottom: 3px solid var(--ink);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.25rem;
+        }
+
+        .modal-close {
+            background: var(--lego-red);
+            color: var(--white);
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            font-weight: 900;
+            font-size: 1.05rem;
+            cursor: pointer;
+            box-shadow: 0 3px 0 var(--ink);
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+            background: #F4F9FC;
+            text-align: center;
+        }
+
+        .modal-body img {
+            width: 100%;
+            height: auto;
+            border: 2.5px solid var(--ink);
+            border-radius: 10px;
+        }
+
+        @media (max-width: 1060px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+                padding: 20px 24px 10px;
+            }
+            nav { flex-wrap: wrap; }
+            main { padding: 16px 20px 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bulatan Putih Lembut Latar Belakang -->
+    <div class="bg-circle c1"></div>
+    <div class="bg-circle c2"></div>
+    <div class="bg-circle c3"></div>
+    <div class="bg-circle c4"></div>
+
+    <!-- Bintik Stud Terapung -->
+    <div class="dot dot-blue"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+
+    <!-- HEADER & NAVIGASI -->
+    <header>
+        <a href="homepage.html" class="brand-logo">
+            <span class="brand-title">Code Zero Lab</span>
+            <div class="brand-sub">
+                <span class="lego-box">LEGO</span>
+                <span class="geo-word">GEOGRAPHY</span>
+            </div>
+        </a>
+
+        <nav>
+            <a href="homepage.html" class="nav-brick brick-blue">
+                <span class="nav-studs"><span></span><span></span><span></span></span>
+                Home 🏠
+            </a>
+            <a href="tentangkami.html" class="nav-brick brick-red">
+                <span class="nav-studs"><span></span><span></span><span></span></span>
+                About Us 🏫
+            </a>
+            <a href="teachingmaterials.html" class="nav-brick brick-green">
+                <span class="nav-studs"><span></span><span></span><span></span></span>
+                Learning Materials 📝
+            </a>
+            <a href="multimedia.html" class="nav-brick brick-purple">
+                <span class="nav-studs"><span></span><span></span><span></span></span>
+                Multimedia Resources 🎬
+            </a>
+        </nav>
+    </header>
+
+    <!-- RUANGAN INFOGRAFIK 16:9 -->
+    <main>
+        <div class="infographic-container" onclick="openModal()" title="Click to zoom">
+            <img src="../Media/Factors Affecting Migration Infographic.png" alt="Factors Affecting Migration Infographic">
+        </div>
+
+        <div class="action-bar">
+            <button class="orange-lego-btn" onclick="openModal()">
+                <div class="inner-studs">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <span class="orange-btn-label">🔍 View Fullscreen</span>
+            </button>
+
+            <a href="../Media/Factors Affecting Migration Infographic.png" download class="yellow-pill-btn">
+                ⬇️ Download Infographic
+            </a>
+        </div>
+    </main>
+
+    <!-- MODAL ZOOM SKRIN PENUH -->
+    <div class="modal-overlay" id="zoomModal" onclick="closeModalOutside(event)">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>📊 Factors Affecting Migration Infographic</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <img src="../Media/Factors Affecting Migration Infographic.png" alt="Full Factors Affecting Migration Infographic">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('zoomModal').classList.add('open');
+        }
+        function closeModal() {
+            document.getElementById('zoomModal').classList.remove('open');
+        }
+        function closeModalOutside(e) {
+            if (e.target.id === 'zoomModal') closeModal();
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+
+</body>
+</html>
