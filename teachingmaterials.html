@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Materials - Code Zero Lab</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --lego-blue: #0074C2;
+            --lego-dark-blue: #004c80;
+            --lego-red: #D32F2F;
+            --lego-green: #388E3C;
+            --lego-yellow: #FFD700;
+            --lego-orange: #F57C00;
+            --lego-purple: #7B1FA2;
+        }
+
+        /* Latar Belakang Seragam (Awan Dotted) */
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #d4f0ff; 
+            background-image: 
+                radial-gradient(circle at 15% 50px, white 20px, transparent 21px),
+                radial-gradient(circle at 25% 60px, white 25px, transparent 26px),
+                radial-gradient(circle at 10% 70px, white 15px, transparent 16px),
+                radial-gradient(circle at 85% 100px, white 30px, transparent 31px),
+                radial-gradient(circle at 95% 110px, white 20px, transparent 21px),
+                radial-gradient(circle at 75% 120px, white 25px, transparent 26px);
+            background-size: 100% 300px;
+            background-repeat: repeat-x;
+        }
+
+        /* Custom Text Strokes Seragam */
+        .text-stroke-black {
+            -webkit-text-stroke: 1.5px black;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+        
+        /* Outline Khusus untuk Tajuk Bahan Pengajaran */
+        .title-outline {
+            color: var(--lego-yellow);
+            -webkit-text-stroke: 2px black;
+            text-shadow: 4px 4px 0px rgba(0,0,0,1);
+            letter-spacing: 2px;
+        }
+
+        /* Scrollbar Styling Seragam */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #d4f0ff;
+            border-left: 2px solid black;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0ea5e9;
+            border: 2px solid black;
+            border-radius: 6px;
+        }
+
+        /* LEGO Baseplate Khusus untuk Konten Tengah */
+        .lego-baseplate {
+            background-color: var(--lego-blue);
+            background-image: radial-gradient(circle, rgba(0,0,0,0.2) 20%, transparent 25%);
+            background-size: 24px 24px;
+            border: 12px solid var(--lego-dark-blue);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.4), 0 15px 0 var(--lego-dark-blue), 0 20px 20px rgba(0,0,0,0.4);
+            border-radius: 16px;
+            position: relative;
+        }
+
+        /* 3D Buttons Khusus Halaman Ini */
+        .btn-3d {
+            border: 2px solid #000;
+            border-radius: 12px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+            transition: all 0.1s ease-in-out;
+            position: relative;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .btn-red { background-color: var(--lego-red); color: white; box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 6px 0 #8b0000, 0 8px 5px rgba(0,0,0,0.3); }
+        .btn-red:active { transform: translateY(6px); box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 0px 0 #8b0000, 0 2px 2px rgba(0,0,0,0.3); }
+
+        .btn-blue { background-color: #1976D2; color: white; box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 6px 0 #0D47A1, 0 8px 5px rgba(0,0,0,0.3); }
+        .btn-blue:active { transform: translateY(6px); box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 0px 0 #0D47A1, 0 2px 2px rgba(0,0,0,0.3); }
+
+        .btn-orange { background-color: var(--lego-orange); color: white; box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 6px 0 #b35900, 0 8px 5px rgba(0,0,0,0.3); }
+        .btn-orange:active { transform: translateY(6px); box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 0px 0 #b35900, 0 2px 2px rgba(0,0,0,0.3); }
+        
+        .btn-green { background-color: var(--lego-green); color: white; box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 6px 0 #1b5e20, 0 8px 5px rgba(0,0,0,0.3); }
+        .btn-green:active { transform: translateY(6px); box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 0px 0 #1b5e20, 0 2px 2px rgba(0,0,0,0.3); }
+
+        .btn-purple { background-color: var(--lego-purple); color: white; box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 6px 0 #4a148c, 0 8px 5px rgba(0,0,0,0.3); }
+        .btn-purple:active { transform: translateY(6px); box-shadow: inset 0 3px 0 rgba(255,255,255,0.4), 0 0px 0 #4a148c, 0 2px 2px rgba(0,0,0,0.3); }
+
+        /* Card Content Styling */
+        .card-inner {
+            background-color: white;
+            border: 4px solid #000;
+            border-radius: 12px;
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.1), 0 6px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Colored Borders for Cards */
+        .border-red-thick { border-color: var(--lego-red); border-width: 10px; border-style: solid; }
+        .border-blue-thick { border-color: #2196F3; border-width: 10px; border-style: solid; }
+        .border-green-thick { border-color: var(--lego-green); border-width: 10px; border-style: solid; }
+        .border-orange-thick { border-color: var(--lego-orange); border-width: 10px; border-style: solid; }
+        .border-purple-thick { border-color: var(--lego-purple); border-width: 10px; border-style: solid; }
+
+        /* Image Placeholder Gradients */
+        .img-placeholder-1 { background: linear-gradient(135deg, #38bdf8 0%, #2dd4bf 55%, #4ade80 100%); border: 4px solid #000; }
+        .img-placeholder-2 { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border: 4px solid #000; }
+        .img-placeholder-3 { background: linear-gradient(135deg, #10b981 0%, #059669 55%, #047857 100%); border: 4px solid #000; }
+    </style>
+</head>
+<body class="min-h-screen text-black overflow-x-hidden p-4 md:p-8 flex flex-col items-center relative">
+
+    <!-- Header / Navigation -->
+    <header class="w-full max-w-[1400px] flex flex-col xl:flex-row justify-between items-center xl:items-center gap-8 mb-12 relative z-20">
+        
+        <!-- Logo Text -->
+        <div class="flex flex-col items-center xl:items-start justify-center gap-2 w-full xl:w-auto">
+            <h1 class="text-5xl md:text-6xl font-bold text-red-500 text-stroke-black tracking-wider">Code Zero Lab</h1>
+            <div class="flex items-center gap-2 xl:ml-2">
+                <div class="bg-red-600 text-white px-2 py-1 font-bold border-2 border-black text-2xl md:text-3xl shadow-[2px_2px_0_black]">LEGO</div>
+                <h1 class="text-5xl md:text-6xl font-bold text-yellow-400 text-stroke-black tracking-wider">GEOGRAPHY</h1>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <nav class="flex flex-nowrap justify-start xl:justify-end gap-3 md:gap-4 mt-2 overflow-x-auto w-full xl:w-auto pb-4 [&::-webkit-scrollbar]:hidden">
+            <!-- Nav Button 1: Home -->
+            <div class="relative group cursor-pointer pt-2 shrink-0">
+                <div class="absolute top-0 left-0 w-full flex justify-evenly px-2">
+                    <div class="w-4 h-2 bg-blue-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-blue-400"></div>
+                    <div class="w-4 h-2 bg-blue-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-blue-400"></div>
+                    <div class="w-4 h-2 bg-blue-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-blue-400"></div>
+                </div>
+                <a href="homepage.html" class="block whitespace-nowrap bg-blue-500 text-white font-bold py-2 px-5 border-2 border-black rounded relative z-10 shadow-[0_4px_0_black] active:translate-y-1 active:shadow-[0_0px_0_black] transition-all group-hover:bg-blue-400">
+                    Home 🏠
+                </a>
+            </div>
+
+            <!-- Nav Button 2: About Us -->
+            <div class="relative group cursor-pointer pt-2 shrink-0">
+                <div class="absolute top-0 left-0 w-full flex justify-evenly px-2">
+                    <div class="w-4 h-2 bg-red-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-red-400"></div>
+                    <div class="w-4 h-2 bg-red-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-red-400"></div>
+                    <div class="w-4 h-2 bg-red-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-red-400"></div>
+                </div>
+                <a href="tentangkami.html" class="block whitespace-nowrap bg-red-500 text-white font-bold py-2 px-5 border-2 border-black rounded relative z-10 shadow-[0_4px_0_black] active:translate-y-1 active:shadow-[0_0px_0_black] transition-all group-hover:bg-red-400">
+                    About Us 🏫
+                </a>
+            </div>
+
+            <!-- Nav Button 3: Learning Materials -->
+            <div class="relative group cursor-pointer pt-2 shrink-0">
+                <div class="absolute top-0 left-0 w-full flex justify-evenly px-2">
+                    <div class="w-4 h-2 bg-green-600 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-green-500"></div>
+                    <div class="w-4 h-2 bg-green-600 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-green-500"></div>
+                    <div class="w-4 h-2 bg-green-600 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-green-500"></div>
+                </div>
+                <a href="teachingmaterials.html" class="block whitespace-nowrap bg-green-600 text-white font-bold py-2 px-5 border-2 border-black rounded relative z-10 shadow-[0_4px_0_black] active:translate-y-1 active:shadow-[0_0px_0_black] transition-all group-hover:bg-green-500">
+                    Learning Materials 📝
+                </a>
+            </div>
+
+            <!-- Nav Button 4: Multimedia Resources -->
+            <div class="relative group cursor-pointer pt-2 shrink-0">
+                <div class="absolute top-0 left-0 w-full flex justify-evenly px-2">
+                    <div class="w-4 h-2 bg-purple-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-purple-400"></div>
+                    <div class="w-4 h-2 bg-purple-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-purple-400"></div>
+                    <div class="w-4 h-2 bg-purple-500 border-t-2 border-l-2 border-r-2 border-black rounded-t-md group-hover:bg-purple-400"></div>
+                </div>
+                <a href="multimedia.html" class="block whitespace-nowrap bg-purple-500 text-white font-bold py-2 px-5 border-2 border-black rounded relative z-10 shadow-[0_4px_0_black] active:translate-y-1 active:shadow-[0_0px_0_black] transition-all group-hover:bg-purple-400">
+                    Multimedia Resources 🎬
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 mt-8 md:mt-12 w-full max-w-[1400px]">
+        
+        <!-- Main Title -->
+        <div class="text-center mb-10">
+            <h1 class="title-outline text-5xl md:text-7xl font-bold inline-block relative">
+                Learning Materials
+            </h1>
+        </div>
+
+        <!-- LEGO Baseplate Content Area -->
+        <div class="lego-baseplate p-4 md:p-8 lg:p-10 mx-auto max-w-6xl">
+            
+            <!-- Card 1 -->
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 mb-8 items-stretch h-full">
+                <!-- Image side -->
+                <div class="md:w-[45%] img-placeholder-1 rounded-xl shadow-lg flex flex-col justify-center items-center p-6 relative overflow-hidden h-64 md:h-auto">
+                    <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(#000 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+                    <div class="absolute top-4 left-4 text-white/90 text-3xl drop-shadow"><i class="fa-solid fa-compass"></i></div>
+                    <div class="absolute top-4 right-5 text-yellow-300 text-3xl drop-shadow animate-bounce"><i class="fa-solid fa-music"></i></div>
+                    <div class="absolute bottom-4 left-6 text-white/80 text-2xl"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="absolute bottom-4 right-6 text-white/80 text-2xl"><i class="fa-solid fa-map-pin"></i></div>
+                    <div class="z-10 flex items-center justify-center gap-4 md:gap-5">
+                        <div class="bg-white/95 border-4 border-black rounded-2xl p-3 md:p-4 shadow-[4px_4px_0_black]">
+                            <i class="fa-solid fa-people-group text-4xl md:text-5xl text-red-600"></i>
+                        </div>
+                        <i class="fa-solid fa-route text-4xl md:text-5xl text-yellow-300 drop-shadow-[2px_3px_0_black]"></i>
+                        <div class="bg-white/95 border-4 border-black rounded-2xl p-3 md:p-4 shadow-[4px_4px_0_black]">
+                            <i class="fa-solid fa-earth-asia text-4xl md:text-5xl text-blue-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Text side -->
+                <div class="md:w-[55%] border-red-thick card-inner p-6 md:p-8">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 tracking-tight leading-tight">
+                            1. Introduction of Population Migration
+                        </h2>
+                        <p class="text-gray-700 text-lg md:text-xl font-medium leading-relaxed mb-6">
+                            Discover what population migration is all about—from internal to international movement—through an engaging migration anthem that brings geography to life!
+                        </p>
+                    </div>
+                    <div class="text-center md:text-left mt-auto pt-4">
+                        <a href="on_the_move_the_migration_anthem.html" class="btn-3d btn-red px-8 py-3 text-xl md:text-2xl w-full md:w-auto">
+                            <i class="fa-solid fa-headphones"></i>
+                            Start Listening!
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="flex flex-col md:flex-row-reverse gap-4 md:gap-6 mb-8 items-stretch h-full">
+                <!-- Image side -->
+                <div class="md:w-[45%] img-placeholder-2 rounded-xl shadow-lg flex flex-col justify-center items-center p-6 relative overflow-hidden h-64 md:h-auto">
+                    <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 20px);"></div>
+                    <div class="absolute top-4 left-5 text-red-300/90 text-2xl"><i class="fa-solid fa-cloud-bolt"></i></div>
+                    <div class="absolute top-4 right-5 text-green-300/90 text-2xl"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="absolute bottom-4 left-5 text-yellow-300/80 text-2xl"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div class="absolute bottom-4 right-5 text-blue-200/90 text-2xl"><i class="fa-solid fa-magnet"></i></div>
+                    <div class="z-10 flex items-center justify-center gap-3 md:gap-4">
+                        <div class="bg-white/95 border-4 border-black rounded-2xl p-3 md:p-4 shadow-[4px_4px_0_black] flex flex-col items-center gap-1.5">
+                            <i class="fa-solid fa-house-crack text-3xl md:text-4xl text-red-600"></i>
+                            <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-full border-2 border-black tracking-wide">PUSH</span>
+                        </div>
+                        <i class="fa-solid fa-angles-right text-3xl md:text-4xl text-yellow-300 drop-shadow-[2px_3px_0_black] animate-pulse"></i>
+                        <div class="bg-white/95 border-4 border-black rounded-2xl p-3 md:p-4 shadow-[4px_4px_0_black] flex flex-col items-center gap-1.5">
+                            <i class="fa-solid fa-briefcase text-3xl md:text-4xl text-green-600"></i>
+                            <span class="bg-green-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-full border-2 border-black tracking-wide">PULL</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Text side -->
+                <div class="md:w-[55%] border-blue-thick card-inner p-6 md:p-8">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 tracking-tight leading-tight">
+                            2. Factors of Migration
+                        </h2>
+                        <p class="text-gray-700 text-lg md:text-xl font-medium leading-relaxed mb-6">
+                            Understand the key push and pull factors behind human migration—from natural disasters and conflict to better jobs, education, and safety.
+                        </p>
+                    </div>
+                    <div class="text-center md:text-left mt-auto pt-4">
+                        <a href="infographic.html" class="btn-3d btn-blue px-8 py-3 text-xl md:text-2xl w-full md:w-auto">
+                            <i class="fa-solid fa-eye"></i>
+                            See Now!
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-stretch h-full">
+                <!-- Image side -->
+                <div class="md:w-[45%] img-placeholder-3 rounded-xl shadow-lg flex flex-col justify-center items-center p-6 relative overflow-hidden h-64 md:h-auto">
+                    <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(#ffffff 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+                    <div class="absolute top-4 left-5 text-yellow-300/90 text-2xl"><i class="fa-solid fa-handshake"></i></div>
+                    <div class="absolute top-4 right-5 text-white/90 text-2xl"><i class="fa-solid fa-earth-americas"></i></div>
+                    <div class="absolute bottom-4 left-5 text-white/80 text-2xl"><i class="fa-solid fa-masks-theater"></i></div>
+                    <div class="absolute bottom-4 right-5 text-yellow-200/90 text-2xl"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="z-10 flex items-center justify-center gap-3 md:gap-4">
+                        <div class="bg-white/95 border-4 border-black rounded-2xl p-3 md:p-4 shadow-[4px_4px_0_black] flex flex-col items-center gap-1.5">
+                            <i class="fa-solid fa-people-roof text-3xl md:text-4xl text-orange-500"></i>
+                            <span class="bg-orange-500 text-white text-xs font-bold px-2.5 py-0.5 rounded-full border-2 border-black tracking-wide">SOCIETY</span>
+                        </div>
+                        <i class="fa-solid fa-arrows-left-right text-3xl md:text-4xl text-yellow-300 drop-shadow-[2px_3px_0_black]"></i>
+                        <div class="bg-white/95 border-4 border-black rounded-2xl p-3 md:p-4 shadow-[4px_4px_0_black] flex flex-col items-center gap-1.5">
+                            <i class="fa-solid fa-city text-3xl md:text-4xl text-blue-600"></i>
+                            <span class="bg-blue-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-full border-2 border-black tracking-wide">ECONOMY</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Text side -->
+                <div class="md:w-[55%] border-green-thick card-inner p-6 md:p-8 justify-center gap-8">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-tight text-center md:text-left">
+                            3. Impacts of Migration on Society
+                        </h2>
+                    </div>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                        <!-- Button 1: Padlet (Embed Modal) -->
+                        <button type="button" onclick="openEmbedModal('padlet')" class="btn-3d btn-orange px-6 py-3 text-lg md:text-xl w-full sm:w-auto">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                            Padlet
+                        </button>
+
+                        <!-- Button 2: Mentimeter (External Link) -->
+                        <a href="https://www.menti.com/al7o4yhw16n1" target="_blank" rel="noopener noreferrer" class="btn-3d btn-orange px-6 py-3 text-lg md:text-xl w-full sm:w-auto">
+                            <i class="fa-solid fa-square-poll-vertical"></i>
+                            Mentimeter
+                        </a>
+
+                        <!-- Button 3: Wordwall (Embed Modal) -->
+                        <button type="button" onclick="openEmbedModal('wordwall')" class="btn-3d btn-orange px-6 py-3 text-lg md:text-xl w-full sm:w-auto">
+                            <i class="fa-solid fa-gamepad"></i>
+                            Wordwall
+                        </button>
+
+                        <!-- Button 4: Canva (Embed Modal) -->
+                        <button type="button" onclick="openEmbedModal('canva')" class="btn-3d btn-orange px-6 py-3 text-lg md:text-xl w-full sm:w-auto">
+                            <i class="fa-solid fa-palette"></i>
+                            Canva
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extra Section (YouTube Video Links & Articles) -->
+        <div class="mt-16 md:mt-24 mb-10 max-w-5xl mx-auto">
+            
+            <!-- Section Title -->
+            <div class="text-center mb-10 flex items-center justify-center gap-3 md:gap-4">
+                <span class="text-4xl md:text-5xl drop-shadow-md">✨</span>
+                <h1 class="title-outline text-4xl md:text-6xl font-bold inline-block">
+                    Extra Section
+                </h1>
+                <span class="text-4xl md:text-5xl drop-shadow-md">📚</span>
+            </div>
+
+            <!-- Row 1: 2 YouTube Video Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8">
+                
+                <!-- YouTube Video 1 -->
+                <div class="bg-white border-red-thick rounded-xl p-5 shadow-xl flex flex-col justify-between transform transition hover:scale-[1.02]">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full border-2 border-black shadow-[2px_2px_0_black] mb-2">
+                            <i class="fa-brands fa-youtube"></i> VIDEO 1
+                        </span>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 leading-snug mb-4">
+                            Pengenalan Migrasi Dalaman & Antarabangsa (Geografi KSSM)
+                        </h3>
+                    </div>
+
+                    <!-- Clickable Video Thumbnail -->
+                    <a href="https://www.youtube.com/watch?v=tqScpIFe_ZY" target="_blank" rel="noopener noreferrer" class="group relative block w-full aspect-video rounded-lg overflow-hidden border-4 border-black bg-black shadow-md mb-4">
+                        <img src="https://img.youtube.com/vi/tqScpIFe_ZY/hqdefault.jpg" alt="Pengenalan Migrasi Dalaman dan Antarabangsa" class="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-hover:opacity-85">
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/40 transition">
+                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-red-600 border-4 border-black flex items-center justify-center text-white text-2xl md:text-3xl shadow-[3px_3px_0_black] transform transition group-hover:scale-110">
+                                <i class="fa-solid fa-play ml-1"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://www.youtube.com/watch?v=tqScpIFe_ZY" target="_blank" rel="noopener noreferrer" class="btn-3d btn-red px-6 py-2.5 text-lg md:text-xl w-full">
+                        <i class="fa-brands fa-youtube"></i>
+                        Watch on YouTube
+                    </a>
+                </div>
+
+                <!-- YouTube Video 2 -->
+                <div class="bg-white border-red-thick rounded-xl p-5 shadow-xl flex flex-col justify-between transform transition hover:scale-[1.02]">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full border-2 border-black shadow-[2px_2px_0_black] mb-2">
+                            <i class="fa-brands fa-youtube"></i> VIDEO 2
+                        </span>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 leading-snug mb-4">
+                            Home Planet - Human Migration
+                        </h3>
+                    </div>
+
+                    <!-- Clickable Video Thumbnail -->
+                    <a href="https://www.youtube.com/watch?v=LC2Egw1Yfjc" target="_blank" rel="noopener noreferrer" class="group relative block w-full aspect-video rounded-lg overflow-hidden border-4 border-black bg-black shadow-md mb-4">
+                        <img src="https://img.youtube.com/vi/LC2Egw1Yfjc/hqdefault.jpg" alt="Home Planet - Human Migration" class="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-hover:opacity-85">
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/40 transition">
+                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-red-600 border-4 border-black flex items-center justify-center text-white text-2xl md:text-3xl shadow-[3px_3px_0_black] transform transition group-hover:scale-110">
+                                <i class="fa-solid fa-play ml-1"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://www.youtube.com/watch?v=LC2Egw1Yfjc" target="_blank" rel="noopener noreferrer" class="btn-3d btn-red px-6 py-2.5 text-lg md:text-xl w-full">
+                        <i class="fa-brands fa-youtube"></i>
+                        Watch on YouTube
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Row 2: 2 Article Links -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                
+                <!-- Article Card 1 -->
+                <div class="bg-white border-orange-thick rounded-xl p-6 shadow-xl flex flex-col justify-between transform transition hover:scale-[1.02]">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center gap-1.5 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full border-2 border-black shadow-[2px_2px_0_black]">
+                                <i class="fa-solid fa-newspaper"></i> ARTICLE 1 • HARIAN METRO
+                            </span>
+                            <div class="w-12 h-12 rounded-full bg-orange-50 border-2 border-orange-300 flex items-center justify-center text-2xl text-orange-500">
+                                <i class="fa-solid fa-earth-americas"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">
+                            Dari Bandar Hijrah ke Kampung: Kelantan, Pahang Teratas
+                        </h3>
+                        <p class="text-gray-700 text-base md:text-lg font-medium leading-relaxed mb-6">
+                            Read about the urban-to-rural migration trend in Malaysia, highlighting Kelantan and Pahang at the top of the list.
+                        </p>
+                    </div>
+                    <a href="https://www.hmetro.com.my/utama/2026/06/1371517/dari-bandar-hijrah-ke-kampung-kelantan-pahang-teratas"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn-3d btn-orange px-6 py-2.5 text-lg md:text-xl w-full">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                        Read Article
+                    </a>
+                </div>
+
+                <!-- Article Card 2 -->
+                <div class="bg-white border-orange-thick rounded-xl p-6 shadow-xl flex flex-col justify-between transform transition hover:scale-[1.02]">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center gap-1.5 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full border-2 border-black shadow-[2px_2px_0_black]">
+                                <i class="fa-solid fa-newspaper"></i> ARTICLE 2 • BERITA RTM
+                            </span>
+                            <div class="w-12 h-12 rounded-full bg-orange-50 border-2 border-orange-300 flex items-center justify-center text-2xl text-orange-500">
+                                <i class="fa-solid fa-file-lines"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-snug">
+                            Trend Migrasi Penduduk Desa ke Bandar Makin Berkurangan
+                        </h3>
+                        <p class="text-gray-700 text-base md:text-lg font-medium leading-relaxed mb-6">
+                            Explore how the trend of rural-to-urban population migration in Malaysia is gradually decreasing.
+                        </p>
+                    </div>
+                    <a href="https://berita.rtm.gov.my/nasional/senarai-berita-nasional/senarai-artikel/trend-migrasi-penduduk-desa-ke-bandar-makin-berkurangan/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn-3d btn-orange px-6 py-2.5 text-lg md:text-xl w-full">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                        Read Article
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="mt-16 md:mt-24 mb-10 max-w-4xl mx-auto">
+            
+            <div class="text-center mb-10 flex items-center justify-center gap-4">
+                <i class="fa-solid fa-puzzle-piece text-4xl text-purple-600 drop-shadow-md"></i>
+                <h1 class="title-outline text-4xl md:text-6xl font-bold inline-block">
+                    Quizzes & Assessment
+                </h1>
+                <i class="fa-solid fa-puzzle-piece text-4xl text-blue-600 drop-shadow-md transform scale-x-[-1]"></i>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-center gap-6 md:gap-8">
+                
+                <!-- Quiz Card 1 -->
+                <div class="bg-white border-red-thick rounded-xl p-6 shadow-xl flex-1 flex flex-col justify-between items-center text-center transform transition hover:scale-105">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-4 h-16 flex items-center justify-center">Quiz 1: Why Do Humans Migrate?</h3>
+                    <div class="text-6xl text-gray-600 mb-6 bg-gray-100 w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-300">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                    <a href="quiz1.html" class="btn-3d btn-red px-6 py-2 text-xl w-full">Start Quiz!</a>
+                </div>
+
+                <!-- Card 2: Migration Simulator -->
+                <div class="bg-white border-blue-thick rounded-xl p-6 shadow-xl flex-1 flex flex-col justify-between items-center text-center transform transition hover:scale-105">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-4 h-16 flex items-center justify-center">Migration Simulator</h3>
+                    <div class="text-6xl text-blue-500 mb-6 bg-blue-50 w-24 h-24 rounded-full flex items-center justify-center border-4 border-blue-200">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <a href="migration_simulator.html" class="btn-3d btn-blue px-6 py-2 text-xl w-full">Start Simulator!</a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Student Work Submission Section (Google Drive Upload) -->
+        <div class="mt-16 md:mt-24 mb-16 max-w-5xl mx-auto">
+            
+            <div class="text-center mb-10 flex items-center justify-center gap-4">
+                <i class="fa-solid fa-cloud-arrow-up text-4xl text-purple-600 drop-shadow-md"></i>
+                <h1 class="title-outline text-4xl md:text-6xl font-bold inline-block">
+                    Student Work Submission
+                </h1>
+                <i class="fa-solid fa-folder-open text-4xl text-yellow-500 drop-shadow-md"></i>
+            </div>
+
+            <div class="bg-white border-purple-thick rounded-2xl p-8 md:p-10 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 transform transition hover:scale-[1.01]">
+                
+                <!-- Icon & Visual -->
+                <div class="flex-shrink-0 bg-purple-50 w-32 h-32 md:w-36 md:h-36 rounded-2xl border-4 border-purple-300 flex items-center justify-center shadow-inner">
+                    <i class="fa-brands fa-google-drive text-7xl text-purple-600 drop-shadow"></i>
+                </div>
+
+                <!-- Description & Instructions -->
+                <div class="flex-1 text-center md:text-left">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                        Upload Your Completed Assignment Here!
+                    </h2>
+                    <p class="text-gray-700 text-lg md:text-xl font-medium leading-relaxed mb-4">
+                        Finished your migration worksheet, poster, or LEGO Geography project? Click the button to submit your file directly into our class Google Drive folder.
+                    </p>
+                    <div class="inline-block bg-yellow-100 border-2 border-black rounded-lg px-4 py-2 text-sm md:text-base font-semibold text-gray-800 shadow-[2px_2px_0_black]">
+                        <i class="fa-solid fa-circle-info text-purple-600 mr-1"></i>
+                        Tip: Rename your file as <span class="underline">Name_Class_Task</span> before uploading.
+                    </div>
+                </div>
+
+                <!-- Upload Button -->
+                <div class="w-full md:w-auto flex-shrink-0">
+                    <a href="https://drive.google.com/drive/folders/1DNoTTLOLOE1vmNc-3HWywzDhcJP3KTrD?usp=sharing" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="btn-3d btn-purple px-8 py-4 text-xl md:text-2xl w-full md:w-auto">
+                        <i class="fa-solid fa-upload"></i>
+                        Upload Work
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Embed Modal (Padlet, Wordwall & Canva) -->
+    <div id="embedModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onclick="handleBackdropClick(event)">
+        <div class="bg-white border-4 border-black rounded-2xl shadow-[8px_8px_0_black] w-full max-w-5xl max-h-[94vh] flex flex-col overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-orange-500 border-b-4 border-black px-6 py-4 flex items-center justify-between">
+                <h3 id="modalTitle" class="text-2xl md:text-3xl font-bold text-white drop-shadow-[2px_2px_0_black]">
+                    Interactive Activity
+                </h3>
+                <button type="button" onclick="closeEmbedModal()" class="btn-3d btn-red px-4 py-1.5 text-lg">
+                    <i class="fa-solid fa-xmark"></i> Close
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div id="modalBody" class="p-3 md:p-5 overflow-y-auto bg-sky-50 flex flex-col justify-center items-center w-full">
+                <!-- Embed content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Embed Modal -->
+    <script>
+        const embedModal = document.getElementById('embedModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+
+        const embedContent = {
+            padlet: {
+                title: 'Padlet: Impacts of Migration on Society',
+                html: `<div class="padlet-embed" style="border:1px solid rgba(0,0,0,0.1);border-radius:2px;box-sizing:border-box;overflow:hidden;position:relative;width:100%;background:#F4F4F4"><p style="padding:0;margin:0"><iframe src="https://padlet.com/embed/s025pg3lj7193k2eu057" frameborder="0" allow="camera;microphone;geolocation;display-capture;clipboard-write" style="width:100%;height:608px;display:block;padding:0;margin:0"></iframe></p></div>`
+            },
+            wordwall: {
+                title: 'Wordwall: Impacts of Migration on Society',
+                html: `<div class="w-full"><iframe src="https://wordwall.net/embed/28f7a7232bb4428097020ab6c3f59fac?themeId=65&templateId=30&fontStackId=0" style="width:100%; height:72vh; min-height:520px; border-radius:12px; display:block;" frameborder="0" allowfullscreen></iframe></div>`
+            },
+            canva: {
+                title: 'Canva: Impacts of Migration & Mitigation Measures',
+                html: `<div class="w-full"><div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%; padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 0.4em; margin-bottom: 0.9em; overflow: hidden; border-radius: 8px; will-change: transform;"><iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0;" src="https://www.canva.com/design/DAHbq-Z8IOE/i7UY_cCwW8CE1fu3AWcrhQ/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe></div><a href="https://www.canva.com/design/DAHbq-Z8IOE/i7UY_cCwW8CE1fu3AWcrhQ/view?utm_content=DAHbq-Z8IOE&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener noreferrer" class="text-sm md:text-base font-semibold text-blue-700 hover:underline">Impacts of Migration & Mitigation Measures (2).pptx</a> <span class="text-sm text-gray-600">by Anddyson Inan</span></div>`
+            }
+        };
+
+        function openEmbedModal(type) {
+            const item = embedContent[type];
+            if (!item) return;
+
+            modalTitle.textContent = item.title;
+            modalBody.innerHTML = item.html;
+            embedModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEmbedModal() {
+            embedModal.classList.add('hidden');
+            modalBody.innerHTML = '';
+            document.body.style.overflow = '';
+        }
+
+        function handleBackdropClick(event) {
+            if (event.target === embedModal) {
+                closeEmbedModal();
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && !embedModal.classList.contains('hidden')) {
+                closeEmbedModal();
+            }
+        });
+    </script>
+</body>
+</html>
